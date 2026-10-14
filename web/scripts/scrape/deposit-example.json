@@ -1,0 +1,19 @@
+[
+  {
+    "id": "housing-deposit",
+    "domain": "housing",
+    "title": "임대 보증금 — BGB §551",
+    "url": "https://www.gesetze-im-internet.de/bgb/__551.html",
+    "keywords": [
+      "보증금",
+      "분할",
+      "나눠",
+      "납부",
+      "kaution",
+      "deposit",
+      "mietsicherheit"
+    ],
+    "language": "de",
+    "selector": ".jurAbsatz"
+  }
+]

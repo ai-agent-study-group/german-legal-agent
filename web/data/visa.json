@@ -1,0 +1,45 @@
+[
+  {
+    "id": "visa-study",
+    "title": "유학 목적 체류 — Make it in Germany",
+    "url": "https://www.make-it-in-germany.com/en/visa-residence/types/studying",
+    "body": "공식 안내는 유학 목적 체류의 기본 요건으로 인정된 교육기관 입학, 생활비 확보, 과정에 필요한 언어 능력 확인을 설명합니다. 학업을 마치지 못한 경우 체류허가 연장 신청에 관한 안내도 제공합니다. 개인의 신청 요건과 필요한 서류는 원문과 담당 기관에서 확인해야 합니다.",
+    "keywords": [
+      "유학",
+      "학생",
+      "학업",
+      "입학",
+      "studying",
+      "student",
+      "study"
+    ],
+    "domain": "visa",
+    "collectedAt": "2026-10-11",
+    "reviewedAt": "2026-10-11",
+    "reviewed": true,
+    "language": "ko",
+    "kind": "editorial_summary"
+  },
+  {
+    "id": "visa-work",
+    "title": "전문인력 취업 체류 — Make it in Germany",
+    "url": "https://www.make-it-in-germany.com/en/visa-residence/types/work-qualified-professionals",
+    "body": "공식 안내는 전문인력 취업 체류의 기본 요건으로 자격의 인정 또는 비교 가능성, 구체적인 전문직 일자리 제안을 설명합니다. 규제 직종은 직업 수행 허가가 필요할 수 있습니다. 요건을 읽는 것만으로 개인의 승인 여부를 판단할 수 없습니다.",
+    "keywords": [
+      "취업",
+      "근로",
+      "전문인력",
+      "일자리",
+      "work",
+      "employment",
+      "job",
+      "자격"
+    ],
+    "domain": "visa",
+    "collectedAt": "2026-10-11",
+    "reviewedAt": "2026-10-11",
+    "reviewed": true,
+    "language": "ko",
+    "kind": "editorial_summary"
+  }
+]

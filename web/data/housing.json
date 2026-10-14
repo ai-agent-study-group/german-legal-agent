@@ -1,0 +1,45 @@
+[
+  {
+    "id": "housing-deposit",
+    "title": "임대 보증금 — BGB §551",
+    "url": "https://www.gesetze-im-internet.de/bgb/__551.html",
+    "body": "BGB §551은 주거 임대 보증금의 상한과 납부·보관을 다룹니다. 금전 보증금은 세 번의 같은 금액으로 나누어 낼 수 있으며, 첫 납부는 임대 시작 시점입니다. 보증금은 임대인의 재산과 분리해 보관하도록 규정합니다. 이 요약은 반환 시점을 다루지 않습니다.",
+    "keywords": [
+      "보증금",
+      "분할",
+      "나눠",
+      "납부",
+      "kaution",
+      "deposit",
+      "mietsicherheit"
+    ],
+    "domain": "housing",
+    "collectedAt": "2026-10-11",
+    "reviewedAt": "2026-10-11",
+    "reviewed": true,
+    "language": "ko",
+    "kind": "editorial_summary"
+  },
+  {
+    "id": "housing-termination",
+    "title": "임대계약 종료 통지 형식 — BGB §568",
+    "url": "https://www.gesetze-im-internet.de/bgb/__568.html",
+    "body": "BGB §568은 임대계약 종료 통지에 서면 형식을 요구합니다. 임대인은 임차인의 이의제기 가능성과 그 형식·기한에 관한 안내도 확인해야 합니다. 이 요약만으로 특정 메시지나 서류의 유효성, 계약별 종료 기한을 판단할 수 없습니다.",
+    "keywords": [
+      "계약",
+      "종료",
+      "해지",
+      "통지",
+      "서면",
+      "퇴거",
+      "kündigung",
+      "termination"
+    ],
+    "domain": "housing",
+    "collectedAt": "2026-10-11",
+    "reviewedAt": "2026-10-11",
+    "reviewed": true,
+    "language": "ko",
+    "kind": "editorial_summary"
+  }
+]

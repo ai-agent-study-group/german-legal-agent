@@ -1,0 +1,22 @@
+{
+  "id": "housing-termination",
+  "domain": "housing",
+  "title": "임대계약 종료 통지 형식 — BGB §568",
+  "url": "https://www.gesetze-im-internet.de/bgb/__568.html",
+  "keywords": [
+    "계약",
+    "종료",
+    "해지",
+    "통지",
+    "서면",
+    "퇴거",
+    "kündigung",
+    "termination"
+  ],
+  "language": "de",
+  "body": "(1) Die Kündigung des Mietverhältnisses bedarf der schriftlichen Form.\n(2) Der Vermieter soll den Mieter auf die Möglichkeit, die Form und die Frist des Widerspruchs nach den §§ 574 bis 574b rechtzeitig hinweisen.\n(+++ § 568 Abs. 1: Zur Anwendung vgl. § 578 Abs. 3 Satz 1 +++)",
+  "collectedAt": "2026-10-10T23:18:18.311175+00:00",
+  "reviewed": false,
+  "reviewedAt": "",
+  "kind": "scraped"
+}

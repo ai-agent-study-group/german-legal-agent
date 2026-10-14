@@ -1,0 +1,72 @@
+[
+  {
+    "id": "housing-deposit",
+    "domain": "housing",
+    "title": "임대 보증금 — BGB §551",
+    "url": "https://www.gesetze-im-internet.de/bgb/__551.html",
+    "keywords": [
+      "보증금",
+      "분할",
+      "나눠",
+      "납부",
+      "kaution",
+      "deposit",
+      "mietsicherheit"
+    ],
+    "language": "de",
+    "selector": ".jurAbsatz"
+  },
+  {
+    "id": "housing-termination",
+    "domain": "housing",
+    "title": "임대계약 종료 통지 형식 — BGB §568",
+    "url": "https://www.gesetze-im-internet.de/bgb/__568.html",
+    "keywords": [
+      "계약",
+      "종료",
+      "해지",
+      "통지",
+      "서면",
+      "퇴거",
+      "kündigung",
+      "termination"
+    ],
+    "language": "de",
+    "selector": ".jurAbsatz"
+  },
+  {
+    "id": "visa-study-law",
+    "domain": "visa",
+    "title": "유학 체류 법령 — AufenthG §16b",
+    "url": "https://www.gesetze-im-internet.de/aufenthg_2004/__16b.html",
+    "keywords": [
+      "유학",
+      "학생",
+      "학업",
+      "입학",
+      "studying",
+      "student",
+      "study"
+    ],
+    "language": "de",
+    "selector": ".jurAbsatz"
+  },
+  {
+    "id": "visa-work-law",
+    "domain": "visa",
+    "title": "전문인력 취업 법령 — AufenthG §18b",
+    "url": "https://www.gesetze-im-internet.de/aufenthg_2004/__18b.html",
+    "keywords": [
+      "취업",
+      "근로",
+      "전문인력",
+      "일자리",
+      "work",
+      "employment",
+      "job",
+      "자격"
+    ],
+    "language": "de",
+    "selector": ".jurAbsatz"
+  }
+]
