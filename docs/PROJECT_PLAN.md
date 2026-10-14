@@ -14,7 +14,7 @@
 - 실제 AI 모델 연결, 운영 DB, 관리자 인증, 운영 배포는 아직 구현되지 않았습니다.
 - 기존 화면과 자료가 첫 MVP의 범위를 결정한 것은 아닙니다.
 
-현재 구현의 상세 내용은 [웹 README](../web/README.md), [구조 문서](../web/docs/ARCHITECTURE.md)를 참고합니다.
+현재 구현의 상세 내용은 [웹 README](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/README.md), [구조 문서](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/ARCHITECTURE.md)를 참고합니다.
 
 ## 1. 목표와 사용자
 
@@ -84,7 +84,7 @@
 | 작업 관리 | GitHub 이슈·보드·연락 채널을 어떻게 쓸까? | ? |
 | 리뷰·의사결정 | 기존 기여 규칙을 확인하고 추가로 합의할 사항은? | ? |
 
-기존 [기여 규칙](../CONTRIBUTING.md), [GitHub 문서 작성 안내](GITHUB_GUIDE.md), 개인 AI 구독/API 이용 구분도 함께 확인할 수 있습니다.
+기존 [기여 규칙](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md), [GitHub 문서 작성 안내](GITHUB_GUIDE.md), 개인 AI 구독/API 이용 구분도 함께 확인할 수 있습니다.
 
 ## 6. 평가와 완료 기준
 
@@ -97,7 +97,7 @@
 | MVP 완료 | 무엇이 어느 수준이면 첫 목표를 달성했다고 볼까? | ? |
 | 공개 여부 | 외부 테스트를 한다면 필요한 검토와 준비는? | ? |
 
-기존 [평가 질문](../web/docs/EVALUATION.md)은 후보 자료이며 평가 개수나 통과 점수는 미정입니다.
+기존 [평가 질문](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/EVALUATION.md)은 후보 자료이며 평가 개수나 통과 점수는 미정입니다.
 
 ## 회의 이후 반영
 

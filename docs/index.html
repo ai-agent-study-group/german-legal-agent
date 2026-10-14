@@ -1,0 +1,160 @@
+---
+layout: null
+---
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>German Legal Agent · 스터디 문서</title>
+  <style>
+    * { box-sizing: border-box; }
+    :root { color-scheme: light; }
+    body { margin: 0; background: #f8fafc; color: #0f172a; font: 16px/1.8 system-ui, sans-serif; overflow-wrap: anywhere; }
+    a { color: #1d4ed8; text-underline-offset: 3px; }
+    a:focus-visible, summary:focus-visible { outline: 3px solid #2563eb; outline-offset: 3px; }
+    header { max-width: 1320px; margin: auto; padding: 22px 24px; display: flex; flex-wrap: wrap; gap: 10px 24px; border-bottom: 1px solid #cbd5e1; }
+    .shell { max-width: 1320px; margin: auto; display: grid; grid-template-columns: 270px minmax(0, 1fr); }
+    aside { padding: 24px; }
+    details { position: sticky; top: 20px; max-height: calc(100vh - 40px); overflow-y: auto; }
+    summary { font-weight: 700; cursor: pointer; }
+    nav h2 { font-size: .9rem; color: #475569; margin: 24px 0 8px; }
+    nav ul { list-style: none; padding: 0; margin: 0; }
+    nav a { display: block; padding: 7px 10px; border-radius: 6px; text-decoration: none; }
+    nav a:hover { background: #e2e8f0; }
+    nav a[aria-current="page"] { background: #dbeafe; color: #1e40af; font-weight: 700; }
+    main { min-width: 0; padding: 24px 32px 64px; background: white; }
+    h1, h2, h3 { line-height: 1.4; }
+    main h2 { margin-top: 2em; }
+    table { display: block; max-width: 100%; overflow-x: auto; border-collapse: collapse; margin: 20px 0; }
+    th, td { min-width: 100px; padding: 10px 14px; border: 1px solid #cbd5e1; vertical-align: top; }
+    th { background: #f1f5f9; text-align: left; }
+    pre { overflow-x: auto; background: #f1f5f9; padding: 16px; }
+    code { font-size: .9em; }
+    .skip-link { position: absolute; left: -10000px; }
+    .skip-link:focus { position: static; display: block; padding: 12px; }
+    @media (max-width: 800px) {
+      .shell { grid-template-columns: minmax(0, 1fr); }
+      header, aside, main { padding: 16px; }
+      details { position: static; max-height: none; }
+      h1 { font-size: 1.7em; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 이동</a>
+  <header>
+    <a href="#">스터디 문서 홈</a>
+    <a href="https://github.com/ai-agent-study-group/german-legal-agent">GitHub 저장소</a>
+    <a id="edit-link" href="https://github.com/ai-agent-study-group/german-legal-agent/edit/main/docs/index.html">GitHub에서 수정</a>
+  </header>
+  <div class="shell">
+    <aside>
+      <details open>
+        <summary>문서 메뉴</summary>
+        <nav aria-label="문서 탐색">
+          <a href="#" data-document="">문서 홈</a>
+          {% assign documents = site.pages | sort: 'path' %}
+          <h2>프로젝트 문서</h2>
+          <ul>
+            {% for document in documents %}
+              {% if document.path contains '.md' %}
+                {% unless document.path contains 'meetings/' %}
+                  <li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document.title | default: document.name | escape }}</a></li>
+                {% endunless %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+          <h2>회의 기록</h2>
+          <ul>
+            {% for document in documents %}
+              {% if document.path contains 'meetings/' and document.path contains '.md' %}
+                <li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document.title | default: document.name | escape }}</a></li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+          <h2>저장소 문서</h2>
+          <ul>
+            <li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/README.md">프로젝트 README</a></li>
+            <li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md">기여 규칙</a></li>
+            <li><a href="https://github.com/ai-agent-study-group/german-legal-agent/tree/main/web/docs">기존 데모 문서</a></li>
+          </ul>
+        </nav>
+      </details>
+    </aside>
+    <main id="main-content" tabindex="-1">
+      <h1>German Legal Agent 스터디</h1>
+      <p>독일 법률 정보 제공 agent를 함께 만드는 스터디의 기획·회의 기록입니다.</p>
+      <p>MVP 범위, 기술 스택, 최종 구조, 역할, 일정은 논의 중입니다.</p>
+      <h2>첫 미팅</h2>
+      <p><a href="#doc=meetings/2026-10-15.md">2026-10-15 킥오프 안건·회의록</a></p>
+      <h2>문서 보기와 수정</h2>
+      <p>메뉴에서 문서를 선택하면 이 화면에 표시됩니다. 수정은 상단의 <strong>GitHub에서 수정</strong>을 이용하세요.</p>
+      <p>새 Markdown 파일을 추가하면 다음 Pages 배포 후 메뉴에도 나타납니다.</p>
+      <noscript>문서 전환에는 JavaScript가 필요합니다. 상단 GitHub 저장소에서 Markdown 문서를 읽을 수도 있습니다.</noscript>
+    </main>
+  </div>
+  {% for document in documents %}
+    {% if document.path contains '.md' %}
+      <template data-source="{{ document.path | escape }}" data-title="{{ document.title | default: document.name | escape }}">{{ document.content | markdownify }}</template>
+    {% endif %}
+  {% endfor %}
+  <script>
+    const main = document.getElementById('main-content');
+    const editLink = document.getElementById('edit-link');
+    const home = document.createElement('template');
+    home.content.append(...Array.from(main.childNodes).map(node => node.cloneNode(true)));
+    const documents = new Map(Array.from(document.querySelectorAll('template[data-source]'), template => [template.dataset.source, template]));
+    const editBase = 'https://github.com/ai-agent-study-group/german-legal-agent/edit/main/docs/';
+    let activePath = '';
+
+    function render(focus = false) {
+      const parameters = new URLSearchParams(location.hash.slice(1));
+      activePath = parameters.get('doc') || '';
+      const source = activePath ? documents.get(activePath) : home;
+      if (source) {
+        main.replaceChildren(source.content.cloneNode(true));
+        document.title = (source.dataset.title || '스터디 문서') + ' · German Legal Agent';
+      } else {
+        const heading = document.createElement('h1');
+        heading.textContent = '문서를 찾을 수 없습니다';
+        const message = document.createElement('p');
+        message.textContent = '메뉴에서 문서를 다시 선택해주세요. 새 문서는 Pages 배포 후 확인할 수 있습니다.';
+        main.replaceChildren(heading, message);
+        document.title = '문서를 찾을 수 없습니다 · German Legal Agent';
+      }
+      editLink.href = editBase + (documents.has(activePath) ? activePath.split('/').map(encodeURIComponent).join('/') : 'index.html');
+      for (const link of document.querySelectorAll('[data-document]')) {
+        if (link.dataset.document === activePath) link.setAttribute('aria-current', 'page');
+        else link.removeAttribute('aria-current');
+      }
+      if (focus) main.focus({ preventScroll: true });
+      const section = parameters.get('section');
+      const target = section ? document.getElementById(section) : main;
+      if (focus || section) (target || main).scrollIntoView({ block: 'start' });
+    }
+
+    main.addEventListener('click', event => {
+      const link = event.target.closest('a');
+      if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#doc=') || /^[a-z][a-z0-9+.-]*:/i.test(href) || href.startsWith('//')) return;
+      const target = new URL(href, 'https://documents.invalid/' + activePath);
+      const path = decodeURIComponent(target.pathname.slice(1));
+      if (documents.has(path)) {
+        event.preventDefault();
+        const parameters = new URLSearchParams({ doc: path });
+        if (target.hash) parameters.set('section', decodeURIComponent(target.hash.slice(1)));
+        location.hash = parameters.toString();
+        if (path === activePath) render(true);
+      }
+    });
+    document.querySelector('.skip-link').addEventListener('click', event => {
+      event.preventDefault();
+      main.focus();
+    });
+    window.addEventListener('hashchange', () => render(true));
+    render();
+  </script>
+</body>
+</html>

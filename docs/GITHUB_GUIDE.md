@@ -14,7 +14,7 @@ Markdown 문서는 GitHub 저장소 화면에서 읽고 만들고 수정할 수 
 6. PR에서 팀원이 내용을 확인하고, 저장소의 리뷰·검사 조건에 맞게 병합합니다.
 
 브랜치는 원본과 별도로 변경을 준비하는 공간이고, PR은 그 변경을 함께 검토하는 요청입니다.
-문서 변경에도 기존 [기여 규칙](../CONTRIBUTING.md)의 PR 절차를 적용합니다.
+문서 변경에도 기존 [기여 규칙](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md)의 PR 절차를 적용합니다.
 
 ## 새 회의록 만들기
 
@@ -56,3 +56,28 @@ GitHub Pages는 문서를 별도 정적 사이트로 보여주고 싶을 때 검
 - [PR 시작하기](https://docs.github.com/en/pull-requests/get-started/pull-request-quickstart)
 - [GitHub 웹 편집기](https://docs.github.com/en/codespaces/the-githubdev-web-based-editor)
 - [GitHub Pages 소개](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)
+
+## 현재 문서 사이트 배포
+
+저장소 `Settings → Pages`에서 다음 구성을 사용하는 경우를 위한 설정입니다.
+
+- Source: `Deploy from a branch`
+- Branch: `main`
+- Folder: `/docs`
+
+접속 주소: [스터디 문서](https://ai-agent-study-group.github.io/german-legal-agent/)
+`docs/`는 배포 원본 폴더이므로 접속 주소 뒤에 `/docs/`를 붙이지 않습니다.
+
+`docs/index.html` 하나가 첫 화면·메뉴·스타일·문서 전환을 담당합니다.
+GitHub Pages 기본 Jekyll 빌드가 Markdown 문서를 HTML 안에 포함하므로 별도 설정 파일이나 외부 라이브러리가 필요하지 않습니다.
+이 방식은 `Deploy from a branch`의 `/docs` 배포를 기준으로 하며, 파일을 그대로 복사하는 배포에서는 Jekyll 빌드가 필요합니다.
+
+새 문서는 `docs/`에 일반 `.md` 파일로 추가하면 됩니다. 별도의 front matter나 메뉴 설정은 필요하지 않습니다.
+파일의 첫 제목을 `# 문서 제목`으로 작성하면 메뉴 제목으로 사용됩니다.
+회의록은 `docs/meetings/`에 추가하면 회의 기록 메뉴에 나타납니다.
+
+메뉴에서 문서를 선택하면 같은 화면에서 내용이 바뀌고, 문서별 URL을 복사해 공유할 수 있습니다.
+Markdown 안에서 다른 Markdown 문서로 이동하는 링크도 같은 화면에서 열립니다.
+`docs/` 밖의 문서는 GitHub 링크로 확인합니다.
+
+변경이 `main`에 반영된 뒤 Pages 배포가 완료되어야 사이트에 표시됩니다.
