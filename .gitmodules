@@ -1,0 +1,3 @@
+[submodule "job-matching-agent"]
+	path = job-matching-agent
+	url = https://github.com/ai-agent-study-group/job-matching-agent.git
