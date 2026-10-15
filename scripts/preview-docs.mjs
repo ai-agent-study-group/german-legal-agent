@@ -48,6 +48,7 @@ async function getSnapshot() {
     const title = content.match(/^#\s+(.+)$/m)?.[1] || path;
     pages.push({ path, name: path.split('/').at(-1), title, content, url: '/' + path.replace(/\.md$/, '.html') });
   }
+  hash.update(await readFile(resolve(root, '../README.md')));
   if (!template) throw new Error('docs/index.html is missing.');
   return { pages, template, version: hash.digest('hex') };
 }
@@ -73,6 +74,12 @@ const server = createServer(async (request, response) => {
       return;
     }
     const pathname = decodeURIComponent(new URL(request.url, 'http://localhost').pathname);
+    if (pathname === '/__docs/root-readme') {
+      const content = await readFile(resolve(root, '../README.md'), 'utf8');
+      response.writeHead(200, { 'Content-Type': contentTypes['.html'] });
+      response.end(request.method === 'HEAD' ? undefined : markdown.parse(stripFrontMatter(content)));
+      return;
+    }
     if (pathname === '/__docs/version') {
       const { version } = await getSnapshot();
       response.writeHead(200, { 'Content-Type': 'application/json' });

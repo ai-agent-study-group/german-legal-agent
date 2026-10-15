@@ -19,6 +19,8 @@ layout: null
     @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
     .reading-number{font-size:10px;color:#97909f;letter-spacing:.08em}.role-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.role-card{display:flex;align-items:center;gap:12px;padding:16px;background:#f3f1ed;border:1px solid var(--line);border-radius:8px;transition:background .15s}.role-card:hover{background:#ede8f4}.role-card>svg:first-child{color:#85749e;width:18px}.role-card>svg:last-child{margin-left:auto;width:14px;color:#a199ab}.role-card span{min-width:0}.role-card strong{display:block;font-weight:500;font-size:12px}.role-card small{display:block;font-size:10px;color:var(--muted);margin-top:3px}.reading-list{padding-left:25px}.reading-list>li{padding:12px 0 12px 8px;border-bottom:1px solid var(--line)}.reading-list>li::marker{color:var(--purple);font-weight:600}.reading-list p{margin:5px 0;font-size:12px}.role-note{padding:16px;background:var(--soft);border-radius:8px}.document>.eyebrow{margin-bottom:14px}@media(max-width:520px){.role-cards{grid-template-columns:1fr}}
+
+    .nav-folder{margin:5px 0;border-radius:8px}.nav-folder summary{list-style:none;display:flex;align-items:center;gap:10px;padding:11px 12px;cursor:pointer;color:#565a64;border-radius:7px;user-select:none}.nav-folder summary::-webkit-details-marker{display:none}.nav-folder summary>svg{width:17px;height:17px;color:#8a7c9c}.nav-folder summary>span{flex:1;min-width:0}.nav-folder summary strong{display:block;font-size:12px;font-weight:500;line-height:1.5}.nav-folder summary small{display:block;font-size:10px;color:#8b8593;margin-top:2px}.nav-folder summary::after{content:'›';font-size:18px;color:#9a91a6;transition:transform .15s}.nav-folder[open]>summary::after{transform:rotate(90deg)}.nav-folder summary:hover{background:#eae7ed}.nav-folder[data-active=true]>summary{color:#654b9f;background:#ebe6f3}.folder-body{margin:2px 10px 10px 21px;padding-left:11px;border-left:1px solid #ded7e8}.folder-body a{font-size:11px;padding:7px 8px}.folder-body .new-document{font-size:10px;color:#80679f;margin-top:6px}.new-document svg{width:12px;height:12px}.role-card em{font-style:normal;font-size:10px;color:#8b7c9b;margin-left:7px;font-weight:400}.writing-notice{display:flex;align-items:center;gap:14px;margin-top:23px;padding:19px;border:1px solid #dfd6ee;background:#f3eff9;border-radius:9px}.writing-notice strong{font-size:12px;color:#634b91;font-weight:600}.writing-notice p{font-size:11px;color:#80728e;margin:4px 0 0}.writing-notice>a{display:flex;align-items:center;gap:5px;font-size:10px;white-space:nowrap;color:#795caa;margin-left:auto}.writing-notice>a svg{width:14px;height:14px}.document img{display:block;max-width:100%;height:auto;margin:20px 0;border-radius:8px}.document>blockquote:first-child{padding:12px 18px}.nav-folder summary:focus-visible{outline:3px solid #8f79cc;outline-offset:2px}@media(max-width:520px){.writing-notice{flex-wrap:wrap;gap:10px;padding:16px}.writing-notice>div{flex:1;min-width:210px}.writing-notice>a{margin-left:43px}}
 </style>
 </head><body>
 <a class="skip-link" href="#main-content">본문으로 이동</a>
@@ -39,40 +41,115 @@ layout: null
 <symbol id="i-scale" viewBox="0 0 24 24"><path d="M12 3v18M5 21h14M4 7h16M5 7l-3 7h6zm14 0-3 7h6z"/></symbol>
 </defs></svg><button class="overlay" aria-label="문서 메뉴 닫기" tabindex="-1"></button>
 <aside class="sidebar" id="sidebar"><a class="brand" href="#"><span class="brand-icon"><svg aria-hidden="true"><use href="#i-book"></use></svg></span><span><strong>German Legal Agent</strong><small>STUDY WORKSPACE</small></span></a><label class="search"><svg aria-hidden="true"><use href="#i-search"></use></svg><input id="doc-search" type="search" placeholder="문서 제목 검색" aria-label="문서 제목 검색"><kbd>⌘ K</kbd></label><div class="nav-scroll">{% assign documents = site.pages | sort: 'path' %}
-<nav aria-label="문서 탐색"><a href="#" data-document=""><svg aria-hidden="true"><use href="#i-grid"></use></svg><span>워크스페이스 홈</span></a><section class="nav-section"><h2>01 / 공통 필독</h2><ul><li><a href="#doc=PROJECT_PLAN.md" data-document="PROJECT_PLAN.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>프로젝트 논의 항목</span></a></li><li><a href="#doc=TEAM.md" data-document="TEAM.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>역할 · 협업 논의</span></a></li><li><a href="#doc=GITHUB_GUIDE.md" data-document="GITHUB_GUIDE.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>문서 작성 · 로컬 미리보기</span></a></li></ul></section><section class="nav-section"><h2>02 / 역할별 읽기</h2><ul><li><a href="#role=product" data-role="product"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>기획 · PO</span></a></li><li><a href="#role=frontend" data-role="frontend"><svg aria-hidden="true"><use href="#i-grid"></use></svg><span>웹 · 프론트엔드</span></a></li><li><a href="#role=backend" data-role="backend"><svg aria-hidden="true"><use href="#i-code"></use></svg><span>서버 · 백엔드</span></a></li><li><a href="#role=agent" data-role="agent"><svg aria-hidden="true"><use href="#i-layers"></use></svg><span>AI · Agent</span></a></li><li><a href="#role=data" data-role="data"><svg aria-hidden="true"><use href="#i-book"></use></svg><span>데이터 · 수집</span></a></li><li><a href="#role=evaluation" data-role="evaluation"><svg aria-hidden="true"><use href="#i-users"></use></svg><span>평가 · 사용자 관점</span></a></li><li><a href="#role=operations" data-role="operations"><svg aria-hidden="true"><use href="#i-git"></use></svg><span>인프라 · 운영</span></a></li></ul></section><section class="nav-section"><h2>03 / 회의 기록</h2><ul><li><a href="#doc=meetings/README.md" data-document="meetings/README.md"><svg aria-hidden="true"><use href="#i-calendar"></use></svg><span>회의 기록 전체</span></a></li>{% assign meetings = documents | reverse %}
-{% for document in meetings %}{% if document.path contains 'meetings/' and document.path contains '.md' %}{% unless document.path == 'meetings/README.md' or document.path == 'meetings/TEMPLATE.md' %}
-<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}"><svg aria-hidden="true"><use href="#i-calendar"></use></svg><span>{{ document.title | default: document.name | escape }}</span></a></li>
-{% endunless %}{% endif %}{% endfor %}
-<li><a href="#doc=meetings/TEMPLATE.md" data-document="meetings/TEMPLATE.md"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>새 회의록 템플릿</span></a></li></ul></section><section class="nav-section"><h2>04 / 기술 · 추가 문서</h2><ul><li><a href="#doc=STRUCTURE.md" data-document="STRUCTURE.md"><svg aria-hidden="true"><use href="#i-code"></use></svg><span>구조와 기술 선택</span></a></li><li><a href="#doc=BACKEND_OPTIONS.md" data-document="BACKEND_OPTIONS.md"><svg aria-hidden="true"><use href="#i-code"></use></svg><span>Python · Next.js 비교</span></a></li>{% for document in documents %}{% if document.path contains '.md' %}{% unless document.path contains 'meetings/' or document.path == 'PROJECT_PLAN.md' or document.path == 'TEAM.md' or document.path == 'GITHUB_GUIDE.md' or document.path == 'STRUCTURE.md' or document.path == 'BACKEND_OPTIONS.md' %}
-<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>{{ document.title | default: document.name | escape }}</span></a></li>
-{% endunless %}{% endif %}{% endfor %}
-</ul></section><section class="nav-section"><h2>05 / 저장소 안내</h2><ul><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/README.md"><svg aria-hidden="true"><use href="#i-git"></use></svg><span>프로젝트 README</span></a></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md"><svg aria-hidden="true"><use href="#i-git"></use></svg><span>기여 규칙</span></a></li></ul></section><p class="no-results" hidden>일치하는 문서가 없습니다.</p></nav></div><div class="sidebar-foot"><span class="status-dot"></span>함께 만들어가는 중<span>STUDY / 01</span></div></aside>
-<div class="app"><header class="topbar"><button class="mobile-menu" aria-label="문서 메뉴 열기" aria-expanded="false" aria-controls="sidebar"><svg aria-hidden="true"><use href="#i-menu"></use></svg></button><div class="breadcrumbs"><span>워크스페이스</span><b aria-hidden="true">/</b><span id="current-title">개요</span></div><div class="top-actions"><a class="repo-link" href="https://github.com/ai-agent-study-group/german-legal-agent"><svg aria-hidden="true"><use href="#i-git"></use></svg>GitHub</a><a class="edit-link" id="edit-link" href="https://github.com/ai-agent-study-group/german-legal-agent/edit/main/docs/index.html"><svg aria-hidden="true"><use href="#i-edit"></use></svg>GitHub에서 수정</a></div></header><div class="content-wrap"><main id="main-content" tabindex="-1"><section class="hero"><div><div class="eyebrow">Our shared notebook</div><h1>함께 만들고,<br><span>기록하며 배웁니다.</span></h1><p>독일 법률 정보 agent를 만들어가는 우리의 작업 공간.<br> 작은 질문부터 기술 선택, 회의의 기록까지 한곳에 모읍니다.</p><div class="hero-meta"><span class="pill">킥오프 · 기획 단계</span><span>매주 목요일 18:00 · Europe/Berlin</span></div></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="art-note"></div><div class="art-card"><svg aria-hidden="true"><use href="#i-scale"></use></svg><div class="art-line"></div><div class="art-line"></div><div class="art-line"></div></div><span class="art-dot"><svg aria-hidden="true"><use href="#i-book"></use></svg></span></div></section>
-<div class="section-heading"><h2>모두 함께 먼저 읽기</h2><span>역할과 관계없이 먼저 확인할 순서</span></div><section class="cards" aria-label="공통 필독 문서"><a class="doc-card" href="#doc=PROJECT_PLAN.md"><div class="card-top"><span class="card-icon "><svg aria-hidden="true"><use href="#i-doc"></use></svg></span><span class="reading-number">01</span></div><h3>프로젝트 논의 항목</h3><p>무엇을 만들고, 무엇을 정해야 하는지</p></a><a class="doc-card" href="#doc=TEAM.md"><div class="card-top"><span class="card-icon sage"><svg aria-hidden="true"><use href="#i-users"></use></svg></span><span class="reading-number">02</span></div><h3>역할 · 협업 논의</h3><p>작업 영역과 협업 방식 확인</p></a><a class="doc-card" href="#doc=GITHUB_GUIDE.md"><div class="card-top"><span class="card-icon blue"><svg aria-hidden="true"><use href="#i-edit"></use></svg></span><span class="reading-number">03</span></div><h3>문서 작성 · 미리보기</h3><p>Markdown 수정과 배포 전 로컬 확인</p></a><a class="doc-card" href="#doc=STRUCTURE.md"><div class="card-top"><span class="card-icon sand"><svg aria-hidden="true"><use href="#i-layers"></use></svg></span><span class="reading-number">04</span></div><h3>구조와 기술 선택</h3><p>전체 역할과 연결 지점 이해하기</p></a></section><div class="section-heading"><h2>맡고 싶은 역할에 맞춰 읽기</h2><span>담당 배정과 별개의 참고 경로</span></div><section class="role-cards" aria-label="역할별 읽기 안내"><a class="role-card" href="#role=product"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span><strong>기획 · PO</strong><small>목표와 사용자 문제, MVP 범위를 논의할 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#role=frontend"><svg aria-hidden="true"><use href="#i-grid"></use></svg><span><strong>웹 · 프론트엔드</strong><small>화면과 사용자 흐름을 살펴볼 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#role=backend"><svg aria-hidden="true"><use href="#i-code"></use></svg><span><strong>서버 · 백엔드</strong><small>언어와 API, 서버 경계를 논의할 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#role=agent"><svg aria-hidden="true"><use href="#i-layers"></use></svg><span><strong>AI · Agent</strong><small>모델 연결과 도구 실행을 살펴볼 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#role=data"><svg aria-hidden="true"><use href="#i-book"></use></svg><span><strong>데이터 · 수집</strong><small>공식 자료의 수집과 검토를 논의할 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#role=evaluation"><svg aria-hidden="true"><use href="#i-users"></use></svg><span><strong>평가 · 사용자 관점</strong><small>질문과 답변의 품질을 확인할 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#role=operations"><svg aria-hidden="true"><use href="#i-git"></use></svg><span><strong>인프라 · 운영</strong><small>실행 환경과 검사, 비용을 논의할 때</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a></section>
-<div class="section-heading"><h2>킥오프 미팅</h2><a href="#doc=meetings/README.md">회의 기록 모두 보기 <svg aria-hidden="true"><use href="#i-arrow"></use></svg></a></div>
-<a class="meeting-card" href="#doc=meetings/2026-10-15.md"><div class="date-block"><small>OCT</small><strong>15</strong></div><div class="meeting-copy"><span class="meeting-label">2026 · KICKOFF</span><h3>우리의 첫 번째 미팅</h3><p>목표, 역할, 첫 MVP에 대해 이야기할 안건과 회의록</p></div><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a>
-<div class="team-row"><div class="team-info"><span class="card-icon sage" aria-hidden="true"><svg><use href="#i-users"></use></svg></span><div class="team-caption"><strong>여러 역할, 하나의 프로젝트</strong>함께 배우고 만드는 AI agent 스터디</div></div><a href="#doc=TEAM.md">협업 논의 ↗</a></div>
-<noscript>문서를 보려면 JavaScript를 켜거나 상단 GitHub 저장소에서 Markdown 파일을 확인해주세요.</noscript></main><footer class="page-footer"><span>GERMAN LEGAL AGENT STUDY</span><span>함께 생각하고, 만들고, 기록합니다.</span></footer></div></div>
+{% capture new_document_template %}---
+제목: "문서 제목"
+유형: "작업 메모"
+설명: "언제 읽으면 좋은지, 어떤 내용을 다루는지 한두 문장으로 적어주세요."
+관련문서: []
+---
+
+# 문서 제목
+
+## 배경과 목적
+
+이 문서가 필요한 이유와 처음 읽는 사람이 알아야 할 배경을 적어주세요.
+
+## 주요 내용
+
+진행한 작업이나 공유할 내용을 쉬운 말로 설명해주세요.
+전문 용어는 전체 이름과 뜻을 함께 적고, 필요하면 예시나 이미지를 넣어주세요.
+
+## 결정 사항과 미정 사항
+
+- 확정: ?
+- 제안 또는 미정: ?
+
+## 다음 할 일
+
+- [ ] 할 일 작성
+{% endcapture %}
+{% capture new_meeting_template %}---
+제목: "회의 제목"
+유형: "회의 기록"
+설명: "회의 날짜와 주요 안건을 적어주세요."
+관련문서: []
+---
+
+{% for document in documents %}{% if document.path == 'meetings/TEMPLATE.md' %}{{ document.content }}{% endif %}{% endfor %}{% endcapture %}
+<nav aria-label="문서 탐색"><a href="#" data-document=""><svg aria-hidden="true"><use href="#i-grid"></use></svg><span>워크스페이스 홈</span></a><section class="nav-section"><h2>공통 안내</h2><ul><li><a href="#doc=TEAM.md" data-document="TEAM.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>프로젝트 역할</span></a></li><li><a href="#doc=STRUCTURE.md" data-document="STRUCTURE.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>현재 구조와 기술</span></a></li><li><a href="#doc=GITHUB_GUIDE.md" data-document="GITHUB_GUIDE.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>누구나 할 수 있는 문서 작성</span></a></li></ul></section><section class="nav-section"><h2>직군별 작업 공간</h2><details class="nav-folder" data-prefix="po/"><summary><svg aria-hidden="true"><use href="#i-doc"></use></svg><span><strong title="Product Owner — 제품 목표와 우선순위를 정리하는 역할">기획·제품 책임자</strong><small data-owner-for="po">담당 확인</small></span></summary><div class="folder-body"><ul><li><a href="#doc=po/README.md" data-document="po/README.md">작업 공간 안내</a></li>{% for document in documents %}{% assign folder_prefix = document.path | slice: 0, 3 %}{% if folder_prefix == 'po/' and document.path contains '.md' %}{% unless document.path == 'po/README.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}</ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Fpo%2Fnew-note.md&amp;value={{ new_document_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 새 문서 작성</span></a></div></details><details class="nav-folder" data-prefix="fe/"><summary><svg aria-hidden="true"><use href="#i-grid"></use></svg><span><strong title="Front End — 사용자가 보는 화면을 개발하는 역할">프론트엔드</strong><small data-owner-for="fe">담당 확인</small></span></summary><div class="folder-body"><ul><li><a href="#doc=fe/README.md" data-document="fe/README.md">작업 공간 안내</a></li>{% for document in documents %}{% assign folder_prefix = document.path | slice: 0, 3 %}{% if folder_prefix == 'fe/' and document.path contains '.md' %}{% unless document.path == 'fe/README.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}</ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Ffe%2Fnew-note.md&amp;value={{ new_document_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 새 문서 작성</span></a></div></details><details class="nav-folder" data-prefix="be/"><summary><svg aria-hidden="true"><use href="#i-code"></use></svg><span><strong title="Back End — 요청 처리와 자료 저장을 담당하는 역할">백엔드</strong><small data-owner-for="be">담당 확인</small></span></summary><div class="folder-body"><ul><li><a href="#doc=be/README.md" data-document="be/README.md">작업 공간 안내</a></li>{% for document in documents %}{% assign folder_prefix = document.path | slice: 0, 3 %}{% if folder_prefix == 'be/' and document.path contains '.md' %}{% unless document.path == 'be/README.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}</ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Fbe%2Fnew-note.md&amp;value={{ new_document_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 새 문서 작성</span></a></div></details><details class="nav-folder" data-prefix="ai-llm/"><summary><svg aria-hidden="true"><use href="#i-layers"></use></svg><span><strong title="Artificial Intelligence / Large Language Model — 인공지능과 대규모 언어 모델">인공지능·언어 모델</strong><small data-owner-for="ai-llm">담당 확인</small></span></summary><div class="folder-body"><ul><li><a href="#doc=ai-llm/README.md" data-document="ai-llm/README.md">작업 공간 안내</a></li>{% for document in documents %}{% assign folder_prefix = document.path | slice: 0, 7 %}{% if folder_prefix == 'ai-llm/' and document.path contains '.md' %}{% unless document.path == 'ai-llm/README.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}</ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Fai-llm%2Fnew-note.md&amp;value={{ new_document_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 새 문서 작성</span></a></div></details><details class="nav-folder" data-prefix="data/"><summary><svg aria-hidden="true"><use href="#i-book"></use></svg><span><strong title="Data Collection — 자료를 가져와 분류·검토하는 역할">데이터 수집</strong><small data-owner-for="data">담당 확인</small></span></summary><div class="folder-body"><ul><li><a href="#doc=data/README.md" data-document="data/README.md">작업 공간 안내</a></li>{% for document in documents %}{% assign folder_prefix = document.path | slice: 0, 5 %}{% if folder_prefix == 'data/' and document.path contains '.md' %}{% unless document.path == 'data/README.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}</ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Fdata%2Fnew-note.md&amp;value={{ new_document_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 새 문서 작성</span></a></div></details><details class="nav-folder" data-prefix="infra/"><summary><svg aria-hidden="true"><use href="#i-git"></use></svg><span><strong title="Infrastructure / Development and Operations — 실행 환경과 개발·운영을 연결하는 역할">인프라·개발 운영</strong><small data-owner-for="infra">담당 확인</small></span></summary><div class="folder-body"><ul><li><a href="#doc=infra/README.md" data-document="infra/README.md">작업 공간 안내</a></li>{% for document in documents %}{% assign folder_prefix = document.path | slice: 0, 6 %}{% if folder_prefix == 'infra/' and document.path contains '.md' %}{% unless document.path == 'infra/README.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}</ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Finfra%2Fnew-note.md&amp;value={{ new_document_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 새 문서 작성</span></a></div></details></section><section class="nav-section"><h2>함께 기록하기</h2><details class="nav-folder" data-prefix="meetings/"><summary><svg aria-hidden="true"><use href="#i-calendar"></use></svg><span><strong>회의 기록</strong><small>매주 목요일 18:00</small></span></summary><div class="folder-body"><ul><li><a href="#doc=meetings/README.md" data-document="meetings/README.md">회의 기록 전체</a></li>{% assign meetings = documents | reverse %}{% for document in meetings %}{% if document.path contains 'meetings/' and document.path contains '.md' %}{% unless document.path == 'meetings/README.md' or document.path == 'meetings/TEMPLATE.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}">{{ document['제목'] | default: document.title | default: document.name | escape }}</a></li>
+{% endunless %}{% endif %}{% endfor %}<li><a href="#doc=meetings/TEMPLATE.md" data-document="meetings/TEMPLATE.md">회의록 템플릿</a></li></ul><a class="new-document" href="https://github.com/ai-agent-study-group/german-legal-agent/new/main?filename=docs%2Fmeetings%2Fnew-note.md&amp;value={{ new_meeting_template | uri_escape }}" target="_blank" rel="noopener noreferrer"><svg aria-hidden="true"><use href="#i-edit"></use></svg><span>＋ 회의록 작성</span></a></div></details></section><section class="nav-section"><h2>추가 문서</h2><ul>{% for document in documents %}{% if document.path contains '.md' %}{% unless document.path contains '/' or document.path == 'TEAM.md' or document.path == 'GITHUB_GUIDE.md' or document.path == 'STRUCTURE.md' %}
+<li><a href="#doc={{ document.path | uri_escape }}" data-document="{{ document.path | escape }}"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>{{ document['제목'] | default: document.title | default: document.name | escape }}</span></a></li>
+{% endunless %}{% endif %}{% endfor %}</ul></section><section class="nav-section"><h2>저장소</h2><ul><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md"><svg aria-hidden="true"><use href="#i-git"></use></svg><span>기여 규칙</span></a></li><li><a href="#doc=@root/README.md" data-document="@root/README.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span>저장소 소개 · README</span></a></li></ul></section><p class="no-results" hidden>일치하는 문서가 없습니다.</p></nav></div><div class="sidebar-foot"><span class="status-dot"></span>함께 만들어가는 중<span>STUDY / 01</span></div></aside>
+<div class="app"><header class="topbar"><button class="mobile-menu" aria-label="문서 메뉴 열기" aria-expanded="false" aria-controls="sidebar"><svg aria-hidden="true"><use href="#i-menu"></use></svg></button><div class="breadcrumbs"><span>워크스페이스</span><b aria-hidden="true">/</b><span id="current-title">개요</span></div><div class="top-actions"><a class="repo-link" href="https://github.com/ai-agent-study-group/german-legal-agent"><svg aria-hidden="true"><use href="#i-git"></use></svg>GitHub</a><a class="edit-link" id="edit-link" href="https://github.com/ai-agent-study-group/german-legal-agent/edit/main/docs/index.html"><svg aria-hidden="true"><use href="#i-edit"></use></svg>GitHub에서 수정</a></div></header><div class="content-wrap"><main id="main-content" tabindex="-1"><section class="hero"><div><div class="eyebrow">Our shared notebook</div><h1>함께 만들고,<br><span>기록하며 배웁니다.</span></h1><p>독일 법률 정보 agent를 함께 만드는 작업 공간.<br> 직군별 메모와 작업 공유, 회의의 기록을 한곳에 모읍니다.</p><div class="hero-meta"><span>매주 목요일 18:00 · Europe/Berlin</span></div></div><div class="hero-art" aria-hidden="true"><div class="orbit"></div><div class="art-note"></div><div class="art-card"><svg aria-hidden="true"><use href="#i-scale"></use></svg><div class="art-line"></div><div class="art-line"></div><div class="art-line"></div></div><span class="art-dot"><svg aria-hidden="true"><use href="#i-book"></use></svg></span></div></section>
+<div class="section-heading"><h2>우리의 작업 공간</h2><span>직군별 폴더에 메모와 공유 내용을 남겨주세요</span></div><section class="role-cards" aria-label="직군별 작업 공간"><a class="role-card" href="#doc=po/README.md"><svg aria-hidden="true"><use href="#i-doc"></use></svg><span><strong title="Product Owner — 제품 목표와 우선순위를 정리하는 역할">기획·제품 책임자 <em data-owner-for="po">담당 확인</em></strong><small>기획 메모 · 요구사항 · 사용자 흐름</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#doc=fe/README.md"><svg aria-hidden="true"><use href="#i-grid"></use></svg><span><strong title="Front End — 사용자가 보는 화면을 개발하는 역할">프론트엔드 <em data-owner-for="fe">담당 확인</em></strong><small>화면 구현 · 공통 부품 · 작업 공유</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#doc=be/README.md"><svg aria-hidden="true"><use href="#i-code"></use></svg><span><strong title="Back End — 요청 처리와 자료 저장을 담당하는 역할">백엔드 <em data-owner-for="be">담당 확인</em></strong><small>API · 서버 연결 · 개발 메모</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#doc=ai-llm/README.md"><svg aria-hidden="true"><use href="#i-layers"></use></svg><span><strong title="Artificial Intelligence / Large Language Model — 인공지능과 대규모 언어 모델">인공지능·언어 모델 <em data-owner-for="ai-llm">담당 확인</em></strong><small>모델 · 프롬프트 · 실험 기록</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#doc=data/README.md"><svg aria-hidden="true"><use href="#i-book"></use></svg><span><strong title="Data Collection — 자료를 가져와 분류·검토하는 역할">데이터 수집 <em data-owner-for="data">담당 확인</em></strong><small>출처 · 수집 · 분류 · 검토</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a><a class="role-card" href="#doc=infra/README.md"><svg aria-hidden="true"><use href="#i-git"></use></svg><span><strong title="Infrastructure / Development and Operations — 실행 환경과 개발·운영을 연결하는 역할">인프라·개발 운영 <em data-owner-for="infra">담당 확인</em></strong><small>환경 · 배포 · 자동 검사 · 운영</small></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></a></section><aside class="writing-notice"><span class="card-icon"><svg aria-hidden="true"><use href="#i-edit"></use></svg></span><div><strong>문서는 변경 검토 요청 없이 바로 저장할 수 있어요.</strong><p>원하는 폴더에 Markdown 문서를 추가하세요. 작성이 처음이라면 쉬운 안내부터 확인해보세요.</p></div><a href="#doc=GITHUB_GUIDE.md">작성 방법 <svg aria-hidden="true"><use href="#i-arrow"></use></svg></a></aside><div class="section-heading"><h2>공통 안내</h2><span>역할과 문서 작성 방법</span></div><section class="cards" aria-label="공통 안내"><a class="doc-card" href="#doc=TEAM.md"><div class="card-top"><span class="card-icon"><svg aria-hidden="true"><use href="#i-users"></use></svg></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></div><h3>확정된 프로젝트 역할</h3><p>담당과 직군별 작업 공간 한눈에 보기</p></a><a class="doc-card" href="#doc=STRUCTURE.md"><div class="card-top"><span class="card-icon"><svg aria-hidden="true"><use href="#i-layers"></use></svg></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></div><h3>현재 구조와 기술</h3><p>코드 위치와 영역 사이의 연결</p></a><a class="doc-card" href="#doc=GITHUB_GUIDE.md"><div class="card-top"><span class="card-icon"><svg aria-hidden="true"><use href="#i-edit"></use></svg></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></div><h3>누구나 할 수 있는 문서 작성</h3><p>Markdown 기초 · 파일 만들기 · 이미지 첨부</p></a><a class="doc-card" href="#doc=meetings/README.md"><div class="card-top"><span class="card-icon"><svg aria-hidden="true"><use href="#i-calendar"></use></svg></span><svg aria-hidden="true"><use href="#i-arrow"></use></svg></div><h3>회의 기록</h3><p>매주 목요일 18:00 · 안건과 공유된 내용</p></a></section><noscript>문서를 보려면 JavaScript를 켜거나 상단 GitHub 저장소에서 Markdown 파일을 확인해주세요.</noscript></main><footer class="page-footer"><span>GERMAN LEGAL AGENT STUDY</span><span>함께 생각하고, 만들고, 기록합니다.</span></footer></div></div>
   {% for document in documents %}
     {% if document.path contains '.md' %}
-      <template data-source="{{ document.path | escape }}" data-title="{{ document.title | default: document.name | escape }}" data-url="{{ document.url | escape }}">{{ document.content | markdownify }}</template>
+      <template data-source="{{ document.path | escape }}" data-title="{{ document['제목'] | default: document.title | default: document.name | escape }}" data-url="{{ document.url | escape }}">{{ document.content | markdownify }}</template>
     {% endif %}
   {% endfor %}
-<template data-role-source="product" data-title="기획 · PO 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>기획 · PO</h1><p>목표와 사용자 문제, MVP 범위를 논의할 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a><p>사용자·문제·MVP·일정·완료 기준에서 정할 질문을 먼저 확인합니다.</p></li><li><a href="#doc=TEAM.md">역할과 협업 논의</a><p>작업 영역과 아직 정하지 않은 역할·협업 방식을 확인합니다.</p></li><li><a href="#doc=meetings/2026-10-15.md">킥오프 안건</a><p>논의할 내용과 결정·미결 사항을 회의록에 기록합니다.</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
-<template data-role-source="frontend" data-title="웹 · 프론트엔드 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>웹 · 프론트엔드</h1><p>화면과 사용자 흐름을 살펴볼 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=STRUCTURE.md">전체 구조 논의</a><p>웹과 API의 경계를 어떻게 나눌지 확인합니다.</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/README.md">현재 웹 데모 실행 안내</a><p>기존 화면·채팅·오류 처리의 현재 상태를 확인합니다. (GitHub)</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/DESIGN.md">현재 데모 디자인</a><p>화면과 공통 디자인의 출발점을 확인합니다. (GitHub)</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
-<template data-role-source="backend" data-title="서버 · 백엔드 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>서버 · 백엔드</h1><p>언어와 API, 서버 경계를 논의할 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=BACKEND_OPTIONS.md">Python · Next.js 비교</a><p>두 선택의 장점과 추가 부담을 비교합니다. 언어는 미정입니다.</p></li><li><a href="#doc=STRUCTURE.md">폴더와 연결 규격</a><p>API·agent·검색·저장소의 경계와 연결 질문을 확인합니다.</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/ARCHITECTURE.md">현재 API · 도구 계약</a><p>기존 데모의 입력·출력·도구 한도를 확인합니다. (GitHub)</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
-<template data-role-source="agent" data-title="AI · Agent 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>AI · Agent</h1><p>모델 연결과 도구 실행을 살펴볼 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=STRUCTURE.md">모델 · 실행 구조 논의</a><p>어떤 구조와 기술을 실험할지 논의할 항목을 확인합니다.</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/STUDY.md">Agent 실습 주제</a><p>질문·자료·도구 선택·실패 분석의 학습 예시를 읽습니다. (GitHub)</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/ARCHITECTURE.md">현재 실행 루프</a><p>모델과 도구가 주고받는 형식과 현재 데모의 한계를 확인합니다. (GitHub)</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
-<template data-role-source="data" data-title="데이터 · 수집 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>데이터 · 수집</h1><p>공식 자료의 수집과 검토를 논의할 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=STRUCTURE.md">수집 · 저장 경계 논의</a><p>수집·분류·검토·저장 방식을 정할 질문을 확인합니다.</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/ingestion/README.md">자료 수집 영역</a><p>수집 역할과 아직 정하지 않은 항목을 확인합니다. (GitHub)</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/DATA.md">현재 수집 · 검토 예시</a><p>공식 출처·수집 명령·검토 대기와 승인 흐름을 살펴봅니다. (GitHub)</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
-<template data-role-source="evaluation" data-title="평가 · 사용자 관점 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>평가 · 사용자 관점</h1><p>질문과 답변의 품질을 확인할 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=PROJECT_PLAN.md">사용자 · 평가 기준 논의</a><p>대상 사용자와 질문, 근거·이해도·완료 기준을 논의합니다.</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/docs/EVALUATION.md">평가 질문 예시</a><p>정상 답변·되묻기·근거 부족 등 어떤 행동을 볼지 살펴봅니다. (GitHub)</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/eval/README.md">평가 영역</a><p>질문과 기대 근거·결과를 어떻게 기록할지 확인합니다. (GitHub)</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
-<template data-role-source="operations" data-title="인프라 · 운영 읽기 안내"><div class="eyebrow">READING GUIDE</div><h1>인프라 · 운영</h1><p>실행 환경과 검사, 비용을 논의할 때 읽을 문서를 순서대로 모았습니다. 역할 담당자·기술·MVP 범위는 아직 미정입니다.</p><p><a href="#doc=PROJECT_PLAN.md">프로젝트 논의 항목</a>과 <a href="#doc=TEAM.md">역할과 협업 논의</a>를 먼저 읽은 뒤 아래 순서로 확인하세요.</p><h2>이 순서로 읽어보세요</h2><ol class="reading-list"><li><a href="#doc=BACKEND_OPTIONS.md">구조별 운영 부담 비교</a><p>한 서버와 별도 서버의 실행·배포 부담을 비교합니다.</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/infra/README.md">환경 · 운영 영역</a><p>환경·배포·키·비용·관측에서 정할 질문을 확인합니다. (GitHub)</p></li><li><a href="https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/README.md">현재 데모 실행 · 검증</a><p>현재 실행법과 검사 명령을 확인합니다. 팀 최종 스택은 미정입니다. (GitHub)</p></li></ol><h2>미팅에서 함께 확인할 것</h2><ul><li>이 영역에서 맡아보고 싶은 작업과 필요한 도움은 무엇인가요?</li><li>첫 작업의 범위와 산출물은 어떻게 정하면 좋을까요?</li><li>어떤 역할과 연결 규격을 먼저 맞춰야 할까요?</li></ul><p class="role-note">GitHub로 연결되는 문서는 현재 코드·데모 설명입니다. 팀의 확정 설계나 담당 배정이 아닙니다.</p></template>
 <script>
     const main = document.getElementById('main-content');
     const editLink = document.getElementById('edit-link');
     const currentTitle = document.getElementById('current-title');
+    const search = document.getElementById('doc-search');
+    const menuButton = document.querySelector('.mobile-menu');
     const home = document.createElement('template');
-    home.content.append(...Array.from(main.childNodes).map(node => node.cloneNode(true)));
     const documents = new Map(Array.from(document.querySelectorAll('template[data-source]'), template => [template.dataset.source, template]));
-    const roleSources = new Map(Array.from(document.querySelectorAll('template[data-role-source]'), template => [template.dataset.roleSource, template]));
+    // Role ownership has one source: the table in docs/TEAM.md.
+    const teamTable = documents.get('TEAM.md')?.content.querySelector('table');
+    if (teamTable) {
+      for (const row of teamTable.querySelectorAll('tbody tr')) {
+        const cells = row.querySelectorAll('td');
+        const link = cells[3]?.querySelector('a');
+        if (!link) continue;
+        const path = new URL(link.getAttribute('href'), 'https://documents.invalid/').pathname;
+        for (const slug of ['po', 'fe', 'be', 'ai-llm', 'data', 'infra']) {
+          if (!path.includes('/' + slug + '/')) continue;
+          for (const node of document.querySelectorAll('[data-owner-for="' + slug + '"]')) node.textContent = cells[2].textContent.trim();
+        }
+      }
+    }
+    home.content.append(...Array.from(main.childNodes).map(node => node.cloneNode(true)));
+    const rootReadmePath = '@root/README.md';
+    const rootReadme = document.createElement('template');
+    rootReadme.dataset.title = '저장소 소개 · README';
+    rootReadme.innerHTML = '<h1>저장소 소개</h1><p>README를 불러오는 중입니다.</p>';
+    documents.set(rootReadmePath, rootReadme);
+    let rootReadmeRequest;
+    async function loadRootReadme() {
+      try {
+        const local = ['localhost', '127.0.0.1'].includes(location.hostname);
+        const response = await fetch(local ? '/__docs/root-readme' : 'https://api.github.com/repos/ai-agent-study-group/german-legal-agent/readme?ref=main', {
+          headers: { Accept: 'application/vnd.github.html+json' }, cache: 'no-store'
+        });
+        if (!response.ok) throw new Error('README request failed');
+        rootReadme.innerHTML = await response.text();
+        const base = 'https://github.com/ai-agent-study-group/german-legal-agent/blob/main/';
+        for (const link of rootReadme.content.querySelectorAll('a[href]')) {
+          const href = link.getAttribute('href');
+          if (href && !href.startsWith('#')) link.href = new URL(href, base).href;
+        }
+        for (const image of rootReadme.content.querySelectorAll('img[src]')) {
+          image.src = new URL(image.getAttribute('src'), 'https://raw.githubusercontent.com/ai-agent-study-group/german-legal-agent/main/').href;
+        }
+      } catch {
+        rootReadme.innerHTML = '<h1>저장소 소개</h1><p>README를 불러오지 못했습니다. 새로고침하거나 <a href="https://github.com/ai-agent-study-group/german-legal-agent#readme">GitHub에서 확인해주세요.</a></p>';
+      }
+      if (activePath === rootReadmePath) render();
+    }
     const documentRoutes = new Map();
     for (const [path, template] of documents) {
       documentRoutes.set(path, path);
@@ -80,38 +157,54 @@ layout: null
       if (template.dataset.url) documentRoutes.set(decodeURIComponent(template.dataset.url).replace(/^\//, ''), path);
     }
     const editBase = 'https://github.com/ai-agent-study-group/german-legal-agent/edit/main/docs/';
+    const legacyRoles = new Map(Object.entries({product: 'po/README.md', frontend: 'fe/README.md', backend: 'be/README.md', agent: 'ai-llm/README.md', data: 'data/README.md', evaluation: 'po/README.md', operations: 'infra/README.md'}));
+    const legacyDocuments = new Map([['PROJECT_PLAN.md', 'TEAM.md']]);
     let activePath = '';
-    let activeRole = '';
+    let searchFolderStates;
 
     function render(focus = false) {
       const parameters = new URLSearchParams(location.hash.slice(1));
-      activePath = parameters.get('doc') || '';
-      activeRole = activePath ? '' : (parameters.get('role') || '');
-      const source = activePath ? documents.get(activePath) : activeRole ? roleSources.get(activeRole) : home;
+      activePath = parameters.get('doc') || legacyRoles.get(parameters.get('role')) || '';
+      activePath = legacyDocuments.get(activePath) || activePath;
+      if (activePath === rootReadmePath && !rootReadmeRequest) rootReadmeRequest = loadRootReadme();
+      const source = activePath ? documents.get(activePath) : home;
       if (source) {
         main.replaceChildren(source.content.cloneNode(true));
         document.title = (source.dataset.title || '스터디 문서') + ' · German Legal Agent';
+        if (activePath) {
+          const sourceUrl = new URL(activePath, new URL('.', location.href));
+          for (const image of main.querySelectorAll('img[src]')) {
+            const src = image.getAttribute('src');
+            if (src) image.src = new URL(src, sourceUrl).href;
+          }
+        }
       } else {
         const heading = document.createElement('h1');
         heading.textContent = '문서를 찾을 수 없습니다';
         const message = document.createElement('p');
-        message.textContent = '메뉴에서 문서를 다시 선택해주세요. 새 문서는 Pages 배포 후 확인할 수 있습니다.';
+        message.textContent = '폴더를 펼쳐 문서를 선택해주세요. 공개 사이트는 배포 후, 로컬 미리보기는 파일 저장 후 반영됩니다.';
         main.replaceChildren(heading, message);
         document.title = '문서를 찾을 수 없습니다 · German Legal Agent';
       }
-      main.classList.toggle('document', Boolean(activePath || activeRole));
-      currentTitle.textContent = source && (activePath || activeRole) ? (source.dataset.title || activePath || activeRole) : ((activePath || activeRole) ? '문서를 찾을 수 없습니다' : '개요');
+      main.classList.toggle('document', Boolean(activePath));
+      currentTitle.textContent = source && activePath ? (source.dataset.title || activePath) : activePath ? '문서를 찾을 수 없습니다' : '개요';
       setMenu(false);
-      editLink.href = editBase + (documents.has(activePath) ? activePath.split('/').map(encodeURIComponent).join('/') : 'index.html');
-      for (const link of document.querySelectorAll('[data-document], [data-role]')) {
-        const selected = link.hasAttribute('data-role') ? link.dataset.role === activeRole && !activePath : link.dataset.document === activePath && !activeRole;
-        if (selected) link.setAttribute('aria-current', 'page');
+      editLink.href = activePath === rootReadmePath ? 'https://github.com/ai-agent-study-group/german-legal-agent/edit/main/README.md' : editBase + (documents.has(activePath) ? activePath.split('/').map(encodeURIComponent).join('/') : 'index.html');
+      for (const link of document.querySelectorAll('a[href]')) {
+        const hostname = new URL(link.href, location.href).hostname;
+        if (hostname === 'github.com' || hostname.endsWith('.github.com')) {
+          link.target = '_blank';
+          link.relList.add('noopener', 'noreferrer');
+        }
+      }
+      for (const link of document.querySelectorAll('[data-document]')) {
+        if (link.dataset.document === activePath) link.setAttribute('aria-current', 'page');
         else link.removeAttribute('aria-current');
       }
+      for (const folder of document.querySelectorAll('.nav-folder')) folder.dataset.active = String(activePath.startsWith(folder.dataset.prefix));
       if (focus) main.focus({ preventScroll: true });
       const section = parameters.get('section');
-      const target = section ? document.getElementById(section) : main;
-      if (focus || section) (target || main).scrollIntoView({ block: 'start' });
+      if (focus || section) (section ? document.getElementById(section) || main : main).scrollIntoView({ block: 'start' });
     }
 
     main.addEventListener('click', event => {
@@ -132,19 +225,12 @@ layout: null
         if (path === activePath) render(true);
       }
     });
-    document.querySelector('.skip-link').addEventListener('click', event => {
-      event.preventDefault();
-      main.focus();
-    });
+    document.querySelector('.skip-link').addEventListener('click', event => { event.preventDefault(); main.focus(); });
     window.addEventListener('hashchange', () => render(true));
-    const search = document.getElementById('doc-search');
-    const menuButton = document.querySelector('.mobile-menu');
     function setMenu(open) {
       document.body.classList.toggle('menu-open', open);
       menuButton.setAttribute('aria-expanded', String(open));
-      if ('inert' in document.getElementById('sidebar')) {
-        document.getElementById('sidebar').inert = matchMedia('(max-width: 800px)').matches && !open;
-      }
+      document.getElementById('sidebar').inert = matchMedia('(max-width: 800px)').matches && !open;
     }
     menuButton.addEventListener('click', () => {
       const open = !document.body.classList.contains('menu-open');
@@ -153,34 +239,42 @@ layout: null
     });
     document.querySelector('.overlay').addEventListener('click', () => { setMenu(false); menuButton.focus(); });
     matchMedia('(max-width: 800px)').addEventListener('change', () => setMenu(false));
-    search.addEventListener('input', () => {
+    function filterNavigation() {
       const query = search.value.toLocaleLowerCase().trim();
+      const folders = Array.from(document.querySelectorAll('.nav-folder'));
+      if (query && !searchFolderStates) searchFolderStates = new Map(folders.map(folder => [folder, folder.open]));
       let matches = 0;
       for (const link of document.querySelectorAll('nav a')) {
-        link.hidden = !link.textContent.toLocaleLowerCase().includes(query);
+        const owner = link.closest('.nav-folder')?.querySelector('summary').textContent || '';
+        link.hidden = Boolean(query) && !(link.textContent + owner).toLocaleLowerCase().includes(query);
         if (!link.hidden) matches++;
       }
-      for (const group of document.querySelectorAll('.nav-section')) {
-        group.hidden = !Array.from(group.querySelectorAll('a')).some(link => !link.hidden);
+      for (const folder of folders) {
+        const visible = Array.from(folder.querySelectorAll('a')).some(link => !link.hidden);
+        folder.hidden = !visible;
+        if (query) folder.open = visible;
+        else if (searchFolderStates) folder.open = searchFolderStates.get(folder) || false;
       }
+      if (!query) searchFolderStates = undefined;
+      for (const group of document.querySelectorAll('.nav-section')) group.hidden = !Array.from(group.querySelectorAll('a')).some(link => !link.hidden);
       document.querySelector('.no-results').hidden = matches > 0;
-    });
+    }
+    search.addEventListener('input', filterNavigation);
     document.addEventListener('keydown', event => {
       if ((event.metaKey || event.ctrlKey) && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         if (matchMedia('(max-width: 800px)').matches) setMenu(true);
         search.focus();
       }
-      if (event.key === 'Escape' && document.body.classList.contains('menu-open')) {
-        setMenu(false); menuButton.focus();
-      }
+      if (event.key === 'Escape' && document.body.classList.contains('menu-open')) { setMenu(false); menuButton.focus(); }
       if (event.key === 'Tab' && document.body.classList.contains('menu-open')) {
-        const links = Array.from(document.getElementById('sidebar').querySelectorAll('a, input')).filter(element => !element.hidden);
-        const first = links[0], last = links[links.length - 1];
+        const nodes = Array.from(document.getElementById('sidebar').querySelectorAll('a, input, summary')).filter(element => !element.hidden && element.getClientRects().length);
+        const first = nodes[0], last = nodes[nodes.length - 1];
         if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
       }
     });
+    filterNavigation();
     render();
-  </script>
+</script>
 </body></html>
