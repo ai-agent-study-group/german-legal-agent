@@ -22,6 +22,18 @@
 직군별 기술 선택과 구현 일정은 각 작업 폴더에서 기록합니다.
 평가와 사용자 관점은 기획·제품 책임자의 작업에 포함하며 별도 포지션으로 나누지 않습니다.
 
+## 팀원 소개
+
+| 이름 | 담당 | GitHub 아이디 |
+| --- | --- | --- |
+| charlotte | 기획 / 제품 책임자 | [jiyuchoi85](https://github.com/jiyuchoi85) |
+| 박희정 | 기획 / 제품 책임자 | [jenniferpak](https://github.com/jenniferpak) |
+| 호수 | 프론트엔드 | [de24world](https://github.com/de24world) |
+| 이지연 | 백엔드 | [jiyeleeee](https://github.com/jiyeleeee) |
+| 윤승재 | 인공지능·언어 모델 | [casysj](https://github.com/casysj) |
+| 성환 | 데이터 수집 | [sjhwseon-creator](https://github.com/sjhwseon-creator) |
+| 조해윤 | 인프라·개발 운영 | [haeyoonjo](https://github.com/haeyoonjo) |
+
 ## 문서 공유
 
 직군별 폴더에 메모·작업 내용·결정·참고 자료를 작성합니다. **문서 변경은 변경 검토 요청(Pull Request, PR) 없이 직접 저장할 수 있습니다.**
