@@ -1,0 +1,72 @@
+[
+  {
+    "court": "Amtsgericht Aachen",
+    "court_level": "Amtsgericht",
+    "date": "2007-11-29",
+    "file_number": "6 C 352/07",
+    "decision_type": "Urteil",
+    "ecli": null,
+    "legal_area": "Mietrecht",
+    "category": "Kaution",
+    "subcategory": "Kautionsrückzahlung",
+    "source": "Open Legal Data",
+    "source_url": "https://de.openlegaldata.io/case/ag-aachen-2007-11-29-6-c-35207",
+    "full_text_available": true
+  },
+  {
+    "court": "Amtsgericht Köln",
+    "court_level": "Amtsgericht",
+    "date": "2015-08-09",
+    "file_number": "212 C 86/13",
+    "decision_type": "Urteil",
+    "ecli": null,
+    "legal_area": "Mietrecht",
+    "category": "Mietminderung",
+    "subcategory": "Schimmel",
+    "source": "Open Legal Data",
+    "source_url": "https://de.openlegaldata.io/case/ag-koln-2015-08-09-212-c-8613",
+    "full_text_available": true
+  },
+  {
+    "court": "Amtsgericht Frankfurt am Main",
+    "court_level": "Amtsgericht",
+    "date": "2020-08-11",
+    "file_number": "33 C 490/17 (56)",
+    "decision_type": "Urteil",
+    "ecli": null,
+    "legal_area": "Mietrecht",
+    "category": "Wohnungsmängel",
+    "subcategory": "Schimmel",
+    "source": "Open Legal Data",
+    "source_url": "https://de.openlegaldata.io/case/ag-frankfurt-am-main-2020-08-11-33-c-49017-56",
+    "full_text_available": true
+  },
+  {
+    "court": "Amtsgericht Düsseldorf",
+    "court_level": "Amtsgericht",
+    "date": "2017-08-07",
+    "file_number": "25 C 447/16",
+    "decision_type": "Urteil",
+    "ecli": null,
+    "legal_area": "Mietrecht",
+    "category": "Kündigung",
+    "subcategory": "Eigenbedarf",
+    "source": "Open Legal Data",
+    "source_url": "https://de.openlegaldata.io/case/ag-dusseldorf-2017-08-07-25-c-44716",
+    "full_text_available": true
+  },
+  {
+    "court": "Amtsgericht Solingen",
+    "court_level": "Amtsgericht",
+    "date": "2005-01-21",
+    "file_number": "13 C 177/98",
+    "decision_type": "Urteil",
+    "ecli": null,
+    "legal_area": "Mietrecht",
+    "category": "Nebenkosten",
+    "subcategory": null,
+    "source": "Open Legal Data",
+    "source_url": "https://de.openlegaldata.io/case/ag-solingen-2005-01-21-13-c-17798",
+    "full_text_available": true
+  }
+]
