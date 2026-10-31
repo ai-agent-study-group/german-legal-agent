@@ -1,0 +1,207 @@
+{
+  "count": 425179,
+  "next": "https://de.openlegaldata.io/api/cases/?offset=0&page=2",
+  "previous": null,
+  "results": [
+    {
+      "id": 522584,
+      "slug": "vg-bremen-2026-10-22-6-k-196025",
+      "court": {
+        "id": 367,
+        "name": "Verwaltungsgericht Bremen",
+        "slug": "vg-bremen",
+        "city": 229,
+        "state": 7,
+        "jurisdiction": "Verwaltungsgerichtsbarkeit",
+        "level_of_appeal": null
+      },
+      "file_number": "6 K 1960/25",
+      "date": "2026-10-22",
+      "created_date": "2026-10-25T04:30:25Z",
+      "updated_date": "2026-10-25T09:30:39Z",
+      "type": "Urteil",
+      "ecli": "",
+      "source_url": "https://verwaltungsgericht.bremen.de/sixcms/media.php/13/25_1960_K_6.pdf"
+    },
+    {
+      "id": 522583,
+      "slug": "vg-bremen-2026-10-22-5-v-307126",
+      "court": {
+        "id": 367,
+        "name": "Verwaltungsgericht Bremen",
+        "slug": "vg-bremen",
+        "city": 229,
+        "state": 7,
+        "jurisdiction": "Verwaltungsgerichtsbarkeit",
+        "level_of_appeal": null
+      },
+      "file_number": "5 V 3071/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-25T04:30:24Z",
+      "updated_date": "2026-10-25T09:30:39Z",
+      "type": "Beschluss",
+      "ecli": "",
+      "source_url": "https://verwaltungsgericht.bremen.de/sixcms/media.php/13/26_3071_V_5.pdf"
+    },
+    {
+      "id": 522580,
+      "slug": "eugh-2026-10-22-c-90126",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-901/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T04:15:28Z",
+      "updated_date": "2026-10-25T09:30:39Z",
+      "type": "Schlussantrag des Generalanwalts",
+      "ecli": "ECLI:EU:C:2026:901",
+      "source_url": "https://publications.europa.eu/resource/celex/62025CC0497"
+    },
+    {
+      "id": 522579,
+      "slug": "eugh-2026-10-22-c-88526",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-885/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T04:15:28Z",
+      "updated_date": "2026-10-25T09:30:39Z",
+      "type": "Urteil",
+      "ecli": "ECLI:EU:C:2026:885",
+      "source_url": "https://publications.europa.eu/resource/celex/62024CJ0660"
+    },
+    {
+      "id": 522578,
+      "slug": "eugh-2026-10-22-c-88326",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-883/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T04:15:27Z",
+      "updated_date": "2026-10-25T09:30:39Z",
+      "type": "Urteil",
+      "ecli": "ECLI:EU:C:2026:883",
+      "source_url": "https://publications.europa.eu/resource/celex/62024CJ0813"
+    },
+    {
+      "id": 522577,
+      "slug": "eugh-2026-10-22-c-88626",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-886/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T04:15:27Z",
+      "updated_date": "2026-10-25T09:30:39Z",
+      "type": "Urteil",
+      "ecli": "ECLI:EU:C:2026:886",
+      "source_url": "https://publications.europa.eu/resource/celex/62024CJ0681"
+    },
+    {
+      "id": 522576,
+      "slug": "eugh-2026-10-22-c-89626",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-896/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T04:15:27Z",
+      "updated_date": "2026-10-25T09:30:38Z",
+      "type": "Urteil",
+      "ecli": "ECLI:EU:C:2026:896",
+      "source_url": "https://publications.europa.eu/resource/celex/62025CJ0327"
+    },
+    {
+      "id": 522575,
+      "slug": "eugh-2026-10-22-c-89826",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-898/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T04:15:26Z",
+      "updated_date": "2026-10-25T09:30:38Z",
+      "type": "Urteil",
+      "ecli": "ECLI:EU:C:2026:898",
+      "source_url": "https://publications.europa.eu/resource/celex/62025CJ0359"
+    },
+    {
+      "id": 522569,
+      "slug": "bayoblg-2026-10-22-102-ar-13326-e",
+      "court": {
+        "id": 249,
+        "name": "Bayerisches Oberstes Landesgericht",
+        "slug": "bayoblg",
+        "city": null,
+        "state": 4,
+        "jurisdiction": null,
+        "level_of_appeal": "Oberlandesgericht"
+      },
+      "file_number": "102 AR 133/26 e",
+      "date": "2026-10-22",
+      "created_date": "2026-10-24T03:15:02Z",
+      "updated_date": "2026-10-25T09:30:38Z",
+      "type": "Beschluss",
+      "ecli": "",
+      "source_url": "https://www.gesetze-bayern.de/Content/Document/Y-300-Z-BECKRS-B-2026-N-27133"
+    },
+    {
+      "id": 522567,
+      "slug": "eugh-2026-10-22-c-90626",
+      "court": {
+        "id": 2,
+        "name": "Europäischer Gerichtshof",
+        "slug": "eugh",
+        "city": null,
+        "state": 19,
+        "jurisdiction": null,
+        "level_of_appeal": null
+      },
+      "file_number": "C-906/26",
+      "date": "2026-10-22",
+      "created_date": "2026-10-23T04:15:27Z",
+      "updated_date": "2026-10-25T09:30:38Z",
+      "type": "Schlussantrag des Generalanwalts",
+      "ecli": "ECLI:EU:C:2026:906",
+      "source_url": "https://publications.europa.eu/resource/celex/62025CC0398"
+    }
+  ]
+}
