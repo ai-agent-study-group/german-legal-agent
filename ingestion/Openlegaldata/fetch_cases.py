@@ -1,13 +1,14 @@
 import argparse
 import json
 import re
+from html import unescape
 from pathlib import Path
 from tempfile import NamedTemporaryFile
 
 from fetch_laws import collect_laws
 from normalize import (
     API_ROOT, SOURCE, IngestionError, RateLimitError, detail, get_json, law_scope, normalized_document,
-    record_failure, records, require_id, require_string, section_key,
+    record_failure, require_id, require_string, section_key,
 )
 
 BASE_DIR = Path(__file__).resolve().parents[2]
@@ -106,39 +107,71 @@ def main():
 
 
 CASE_LIMIT = 50
-HOUSING_QUERY = (
-    "Wohnraummietrecht OR Wohnraummiete OR Wohnraummietvertrag OR Mietwohnung OR "
-    "Mietminderung OR Eigenbedarf OR Mietkaution OR Betriebskostenabrechnung OR Schönheitsreparaturen"
+HOUSING_SEARCHES = (
+    ("Eigenbedarf", "573"),
+    ("Mietminderung", "536"),
+    ("Mietkaution", "551"),
+    ("Betriebskostenabrechnung", "556"),
+    ("Mieterhöhung", "558"),
+    ("Schönheitsreparaturen", None),
+    ("Wohnraummietvertrag", None),
 )
+SECTION_NUMBER = r"\d+(?:\s*[a-z])?\b"
+SUBSECTION = r"(?:\s*(?:Abs(?:atz)?|Nr|Satz|S|Alt|Halbsatz|Hs|lit)\.?\s*[\da-z]+\b)*"
+CITATION_SEPARATOR = r"\s*(?:,|und|oder|bis)\s*§{0,2}\s*"
 BGB_CITATION = re.compile(
-    r"§{1,2}\s*(\d+\s*[a-z]?)\b"
-    r"(?:\s*(?:Abs(?:atz)?|Nr|Satz|S|Alt|Halbsatz|Hs|lit)\.?\s+[\da-z]+)*"
-    r"\s*BGB\b",
+    rf"§{{1,2}}\s*({SECTION_NUMBER}{SUBSECTION}"
+    rf"(?:{CITATION_SEPARATOR}{SECTION_NUMBER}{SUBSECTION})*)\s*BGB\b",
     re.I,
 )
 
 
 def cited_sections(text):
     return {
-        key for value in BGB_CITATION.findall(text)
-        if law_scope(key := section_key(value)) == "primary"
+        key
+        for citation in BGB_CITATION.findall(unescape(text))
+        for part in re.split(CITATION_SEPARATOR, citation, flags=re.I)
+        if law_scope(key := section_key(re.match(SECTION_NUMBER, part, re.I)[0])) == "primary"
     }
 
 
-def search_candidates(failures):
+def debug_response(label, row):
+    print(f"{label}: id={row.get('id')!r}, court={row.get('court')!r}, fields={sorted(row)}")
+    for field in ("text", "content"):
+        if isinstance(value := row.get(field), str):
+            print(f"  {field} ({len(value)} chars): {value[:100]!a}")
+
+
+def search_candidates(failures, debug=False):
     candidates = {}
-    # The citation index can resolve references without an explicit BGB suffix.
-    for section in (None, "556", "558", "573", "573a"):
-        params = {"text": HOUSING_QUERY, "court": "BGH", "limit": 50, "return_text": 1}
+    # Haystack AutoQuery escapes OR. Merge separate searches by case ID.
+    searches = [(term, None) for term, _ in HOUSING_SEARCHES]
+    searches.extend((term, section) for term, section in HOUSING_SEARCHES if section)
+    for term, section in searches:
+        params = {"text": term, "court": "BGH", "limit": 25, "return_text": 1}
         if section:
             params.update(cited_law_book="bgb", cited_law_section=section)
+        label = f"{term} / BGB {section}" if section else term
+        scanned = 0
+        direct_hits = 0
         try:
-            for row in records("cases/search/", params, max_pages=1 if section else 2):
+            page = get_json("cases/search/", params)
+            rows = page.get("results")
+            if not isinstance(rows, list):
+                raise IngestionError("missing API results list")
+            if debug:
+                print(f"Search {label}: API count={page.get('count')!r}, page size={len(rows)}")
+            for row in rows:
+                scanned += 1
                 try:
                     record_id = require_id(row)
+                    if debug and scanned <= 2:
+                        debug_response(f"Search {label}", row)
                     if require_string(row, "court") != "BGH":
                         raise IngestionError("unexpected court in BGH search")
-                    direct = cited_sections(require_string(row, "text"))
+                    search_text = row.get("text")
+                    direct = cited_sections(search_text) if isinstance(search_text, str) else set()
+                    direct_hits += bool(direct)
                     item = candidates.setdefault(record_id, {"row": row, "direct": set(), "indexed": set()})
                     item["direct"].update(direct)
                     if section:
@@ -146,9 +179,13 @@ def search_candidates(failures):
                 except IngestionError as error:
                     record_failure(failures, "case", row, error)
         except IngestionError as error:
-            record_failure(failures, "case", f"search:{section or 'housing'}", error)
+            record_failure(failures, "case", f"search:{label}", error)
+            if debug:
+                print(f"Search {label}: {error}")
             if isinstance(error, RateLimitError):
                 break
+        if debug:
+            print(f"Search {label}: scanned={scanned}, direct citations={direct_hits}")
     return sorted(
         candidates.values(),
         key=lambda item: (
@@ -161,14 +198,19 @@ def search_candidates(failures):
     )
 
 
-def collect_bgh_cases(failures):
+def collect_bgh_cases(failures, limit=CASE_LIMIT, debug=False):
     collected = {}
-    for item in search_candidates(failures):
-        if not (item["direct"] or item["indexed"]):
-            continue
+    detailed = 0
+    for item in search_candidates(failures, debug):
         row = item["row"]
+        # A missing search body can still be recovered from the detail endpoint.
+        if not (item["direct"] or item["indexed"]) and row.get("text"):
+            continue
         try:
             case = detail("cases", row)
+            detailed += 1
+            if debug and detailed <= 2:
+                debug_response("Case detail", case)
             if not isinstance(case.get("court"), dict):
                 raise IngestionError("missing or invalid court")
             metadata = normalize_case(case)
@@ -192,7 +234,7 @@ def collect_bgh_cases(failures):
                 document[field] = metadata[field]
             document["cited_laws"] = [f"BGB § {num}{suffix}" for num, suffix in sorted(citations)]
             collected[date, file_number] = document
-            if len(collected) == CASE_LIMIT:
+            if len(collected) == limit:
                 break
         except IngestionError as error:
             record_failure(failures, "case", row, error)
@@ -217,7 +259,7 @@ def load_previous(filename):
     return documents
 
 
-def collect_mietrecht(resume=False):
+def collect_mietrecht(resume=False, case_limit=CASE_LIMIT, debug=False):
     failures = []
     primary_file = "bgb_mietrecht_laws.json"
     optional_file = "bgb_mietrecht_optional_laws.json"
@@ -225,7 +267,7 @@ def collect_mietrecht(resume=False):
     previous = load_previous(primary_file) + load_previous(optional_file) if resume else []
     previous_cases = load_previous(cases_file) if resume else []
     primary, optional = collect_laws(failures, previous)
-    cases = collect_bgh_cases(failures)
+    cases = collect_bgh_cases(failures, case_limit, debug)
     if resume and failures and (
         len(primary) + len(optional) < len(previous) or len(cases) < len(previous_cases)
     ):
@@ -260,9 +302,14 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--mietrecht", action="store_true", help="Collect the BGB and BGH datasets")
     parser.add_argument("--resume", action="store_true", help="Reuse previously collected BGB sections")
+    parser.add_argument("--case-limit", type=int, default=CASE_LIMIT, metavar="N",
+                        help="Collect at most N BGH decisions (1–50)")
+    parser.add_argument("--debug", action="store_true", help="Show BGH search and detail response samples")
     args = parser.parse_args()
-    if args.resume and not args.mietrecht:
-        parser.error("--resume requires --mietrecht")
+    if (args.resume or args.debug or args.case_limit != CASE_LIMIT) and not args.mietrecht:
+        parser.error("--resume, --debug and --case-limit require --mietrecht")
+    if not 1 <= args.case_limit <= CASE_LIMIT:
+        parser.error("--case-limit must be between 1 and 50")
     if args.mietrecht:
-        raise SystemExit(collect_mietrecht(args.resume))
+        raise SystemExit(collect_mietrecht(args.resume, args.case_limit, args.debug))
     main()

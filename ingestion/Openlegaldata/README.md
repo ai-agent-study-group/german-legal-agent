@@ -14,6 +14,12 @@ python -B ingestion/Openlegaldata/fetch_cases.py --mietrecht
 
 부분 수집에 이어서 실행할 때는 `--mietrecht --resume`을 사용합니다. 현재 BGB 판과 ID가 같은 저장 조항의 원문을 재사용합니다. 판례 후보는 다시 조회합니다. 오류가 있는 재실행에서 저장된 레코드 수가 줄어들면 기존 출력 파일을 보존합니다.
 
+인증 환경에서 판례 5건을 먼저 수집하고 검색·상세 응답을 확인하려면 다음 명령을 실행합니다. 전체 수집은 `--case-limit 5`를 생략하면 최대 50건까지 진행합니다.
+
+```powershell
+python -B ingestion/Openlegaldata/fetch_cases.py --mietrecht --resume --case-limit 5 --debug
+```
+
 ## 범위와 선정 기준
 
 - **Primary**는 BGB §§ 535–548의 일반 임대차 규정과 §§ 549–577a의 주거 임대차 규정입니다. 최신 BGB 판의 실제 API 목록을 순회하므로 § 536a, § 555a, § 556d, § 573a 같은 조항도 포함합니다.
@@ -37,6 +43,7 @@ python -B ingestion/Openlegaldata/fetch_cases.py --mietrecht
 ## API 제약
 
 - 운영 API는 BGB 판 목록에 `/api/law_books/`를 사용합니다. 판례 검색의 법원 코드는 `BGH`입니다.
+- 판례 검색은 주제별 단일 검색을 실행하고 ID로 후보를 합칩니다. 검색 응답의 `court`는 법원 코드 문자열이며, `return_text=1`이면 `text`를 요청합니다. 상세 응답의 `court`는 객체이며 원문은 HTML `content`에 있습니다. 구조화 인용은 응답 행의 필드로 제공되는 대신 `cited_law_book`과 `cited_law_section` 검색 조건으로 확인합니다.
 - 상세 요청은 목록에서 제공하지 않는 본문과 판례 메타데이터를 가져옵니다. [API 문서](https://openlegaldata.github.io/oldp/v0.13.2/api/api-overview.html)는 익명 요청을 일 100회, 인증 요청을 시간당 5,000회로 안내합니다. 실행에 100회 이상 필요할 수 있으므로 토큰이 있으면 로컬 환경 변수 `OLDP_API_TOKEN`으로 전달하세요.
 - 검색은 주거 임대차 검색어와 제한된 결과 페이지를 사용합니다. 수집 결과는 인용을 기준으로 선정한 PoC 표본이며, 중요 판례의 법률 전문가 검토는 별도입니다.
 - 누락이나 API 오류가 있는 레코드는 별도로 기록하고 수집을 계속합니다. 실패가 있거나 필수 데이터셋이 비어 있으면 부분 결과를 저장하고 종료 코드 1을 반환합니다.

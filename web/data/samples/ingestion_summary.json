@@ -1,7 +1,7 @@
 {
-  "primary_laws_collected": 83,
-  "optional_laws_collected": 0,
-  "bgh_cases_collected": 0,
-  "parsing_failed": 3,
+  "primary_laws_collected": 98,
+  "optional_laws_collected": 6,
+  "bgh_cases_collected": 50,
+  "parsing_failed": 0,
   "source": "Open Legal Data"
 }
