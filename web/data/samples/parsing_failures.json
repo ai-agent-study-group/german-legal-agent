@@ -1,0 +1,17 @@
+[
+  {
+    "record_id": 129516,
+    "record_type": "law",
+    "reason": "detail endpoint failed: HTTP 429 (API request quota exhausted)"
+  },
+  {
+    "record_id": "search:housing",
+    "record_type": "case",
+    "reason": "HTTP 429 (API request quota exhausted)"
+  },
+  {
+    "record_id": "search",
+    "record_type": "case",
+    "reason": "no eligible BGH cases collected"
+  }
+]
