@@ -1,0 +1,91 @@
+[
+  {
+    "title": "📚 목차",
+    "items": [
+      {
+        "label": "Home",
+        "route": "STRUCTURE.md"
+      }
+    ]
+  },
+  {
+    "title": "안내",
+    "items": [
+      {
+        "label": "역할",
+        "route": "TEAM.md"
+      },
+      {
+        "label": "Wiki 작성법",
+        "route": "GITHUB_GUIDE.md"
+      }
+    ]
+  },
+  {
+    "title": "기획·품질(PO/QA)",
+    "items": [
+      {
+        "label": "구조 PO-QA",
+        "route": "po/README.md"
+      }
+    ]
+  },
+  {
+    "title": "프론트엔드(FE)",
+    "items": [
+      {
+        "label": "구조 FE",
+        "route": "fe/README.md"
+      }
+    ]
+  },
+  {
+    "title": "백엔드(BE)",
+    "items": [
+      {
+        "label": "구조 BE",
+        "route": "be/README.md"
+      }
+    ]
+  },
+  {
+    "title": "인공지능(LLM)",
+    "items": [
+      {
+        "label": "구조 LLM",
+        "route": "ai-llm/README.md"
+      }
+    ]
+  },
+  {
+    "title": "데이터 수집",
+    "items": [
+      {
+        "label": "구조 데이터 수집",
+        "route": "data/README.md"
+      }
+    ]
+  },
+  {
+    "title": "인프라(DevOps)",
+    "items": [
+      {
+        "label": "구조 DevOps",
+        "route": "infra/README.md"
+      }
+    ]
+  },
+  {
+    "title": "회의기록",
+    "items": [
+      {
+        "label": "2026-10-15 킥오프",
+        "route": "meetings/2026-10-15-킥오프.md"
+      },
+      {
+        "label": "회의록 양식",
+        "route": "meetings/TEMPLATE.md"
+      }
+    ]
+  }
+]

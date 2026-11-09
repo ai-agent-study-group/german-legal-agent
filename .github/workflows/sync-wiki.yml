@@ -27,7 +27,7 @@ jobs:
       - name: Map wiki pages into docs site
         run: |
           python3 - <<'PY'
-          import pathlib, re
+          import pathlib, re, json
 
           WIKI = pathlib.Path("wiki")
           DOCS = pathlib.Path("docs")
@@ -66,6 +66,37 @@ jobs:
           def route_for(slug):
               return slug_to_route.get(slug, f"{slug.strip().replace(' ', '-')}.md")
 
+          # wiki _Sidebar.md -> page 좌측 nav 데이터. `**제목**`/`### 제목` = 섹션, `* [[페이지]]` = 항목.
+          # page nav = wiki 목차(단일 소스). 작성/수정/삭제는 wiki 에서, page 는 보기 전용.
+          def build_sidebar(text):
+              sections, current = [], {"title": None, "items": []}
+              sections.append(current)
+              for line in text.splitlines():
+                  line = line.strip()
+                  if not line:
+                      continue
+                  h = re.match(r"^\*\*(.+?)\*\*$", line) or re.match(r"^#{1,6}\s+(.+)$", line)
+                  if h:
+                      current = {"title": h.group(1).strip(), "items": []}
+                      sections.append(current)
+                      continue
+                  w = re.match(r"^[*\-]\s*\[\[([^\]]+)\]\]", line)
+                  if w:
+                      inner = w.group(1)
+                      label, target = (inner.split("|", 1) if "|" in inner else (inner, inner))
+                      current["items"].append({"label": label.strip(),
+                                               "route": route_for(target.strip().replace(" ", "-"))})
+                      continue
+                  g = re.match(r"^[*\-]\s*\[([^\]]+)\]\(([^)]+)\)", line)
+                  if g:
+                      label, target = g.group(1).strip(), g.group(2).strip()
+                      if re.match(r"^[a-zA-Z][\w+.-]*:", target):
+                          current["items"].append({"label": label, "url": target})
+                      else:
+                          current["items"].append({"label": label,
+                                                   "route": route_for(target.replace(" ", "-"))})
+              return [s for s in sections if s["items"]]
+
           # --- gollum 링크 -> SPA 해시 라우트 변환 ---
           def convert_links(text):
               def wikilink(m):
@@ -98,6 +129,12 @@ jobs:
           assert convert_links("[s](구조-데이터-수집#scope)") == "[s](#doc=data/README.md&section=scope)", "anchor"
           assert convert_links("[x](https://a.com/b)") == "[x](https://a.com/b)", "external kept"
           assert convert_links("![i](img.png)") == "![i](img.png)", "image kept"
+
+          # 사이드바 파싱 자체 점검 (구조/라벨만 — route 는 live 페이지에 의존하므로 제외)
+          _sb = build_sidebar("### 📚 목차\n* [[Home]]\n**안내**\n* [[역할|우리 역할]]\n* [외부](https://a.com)\n")
+          assert [s["title"] for s in _sb] == ["📚 목차", "안내"], _sb
+          assert [i["label"] for i in _sb[1]["items"]] == ["우리 역할", "외부"], _sb
+          assert _sb[1]["items"][1].get("url") == "https://a.com", _sb
 
           def build(md):
               text = convert_links(md.read_text(encoding="utf-8"))
@@ -134,6 +171,18 @@ jobs:
               out.parent.mkdir(parents=True, exist_ok=True)
               out.write_text(build(md), encoding="utf-8")
               print(f"wrote: {out.relative_to(DOCS).as_posix()}")
+
+          # 4) wiki _Sidebar -> page 좌측 nav 데이터 (Jekyll site.data.sidebar / preview 공용)
+          sidebar_src = WIKI / "_Sidebar.md"
+          data_dir = DOCS / "_data"
+          data_dir.mkdir(parents=True, exist_ok=True)
+          if sidebar_src.exists():
+              sb = build_sidebar(sidebar_src.read_text(encoding="utf-8"))
+              (data_dir / "sidebar.json").write_text(
+                  json.dumps(sb, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+              print(f"wrote nav: _data/sidebar.json ({len(sb)} sections)")
+          else:
+              print("no _Sidebar.md in wiki; nav unchanged")
           PY
 
       - name: Commit if changed
