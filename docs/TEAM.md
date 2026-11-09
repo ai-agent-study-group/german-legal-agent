@@ -1,38 +1,29 @@
 ---
 제목: "프로젝트 역할"
-유형: "역할 안내"
-설명: "분야별 주 담당과 역할을 확인하고 관심 있는 다른 분야에 참여하는 방법을 안내합니다."
+유형: "위키"
+설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
 관련문서: []
 ---
 
 # 프로젝트 역할
 
 아래 역할은 각 분야를 중심으로 작업을 진행하는 **주 담당**입니다.
-누구나 관심 있는 분야의 **Discord(디스코드) 채널에 자유롭게 참여해 질문하고, 함께 작업하며 배울 수 있습니다.**
+누구나 관심 있는 분야의 **Discord 채널에 자유롭게 참여해 질문하고, 함께 작업하며 배울 수 있습니다.**
 
-| 구분 · 전체 이름 | 하는 일 | 주 담당 | 작업 문서 |
+정기 모임은 **매주 목요일 18:00 (Europe/Berlin)**, Discord에서 진행합니다. 역할 분담은 [현재 구조와 기술 · 역할 분담](#doc=STRUCTURE.md&section=roles)을 따릅니다.
+
+| 구분 · 전체 이름 | 하는 일 | 주 담당 | GitHub 아이디 |
 | --- | --- | --- | --- |
-| 기획 / 제품 책임자(Product Owner, PO) | 제품의 목표와 우선순위, 사용자 흐름과 요구사항을 정리하는 역할입니다. | charlotte · 희정 | [기획 / 제품 책임자 폴더](po/README.md) |
-| 프론트엔드(Front End, FE) | 사용자가 직접 보고 조작하는 웹 화면을 개발하는 역할입니다. | 호수 | [프론트엔드 폴더](fe/README.md) |
-| 백엔드(Back End, BE) | 화면 뒤에서 요청을 처리하고 자료를 저장·조회하는 서버를 개발하는 역할입니다. | 지연 | [백엔드 폴더](be/README.md) |
-| 인공지능·대규모 언어 모델(Artificial Intelligence, AI / Large Language Model, LLM) | 인공지능 모델에 전달할 질문·지시문과 답변 생성·자료 검색의 실행 흐름을 다루는 역할입니다. | 승재 | [인공지능·언어 모델 폴더](ai-llm/README.md) |
-| 데이터 수집 | 답변에 필요한 자료를 가져오고 분류·검토해 사용할 수 있도록 정리하는 역할입니다. | 성환 | [데이터 수집 폴더](data/README.md) |
-| 인프라·개발 운영(Infrastructure / Development and Operations, DevOps) | 프로그램 실행에 필요한 기반 환경과 배포·자동 검사·운영을 관리하는 역할입니다. | 해윤 | [인프라·개발 운영 폴더](infra/README.md) |
+| 기획 / 제품 책임자(Product Owner, PO) | 제품의 목표와 우선순위, 사용자 흐름과 요구사항을 정리합니다. 평가·사용자 관점도 PO 작업에 포함합니다. | charlotte · 희정 | [jiyuchoi85](https://github.com/jiyuchoi85) · [jenniferpak](https://github.com/jenniferpak) |
+| 프론트엔드(Front End, FE) | 사용자가 직접 보고 조작하는 웹 화면을 개발합니다. | 호수 | [de24world](https://github.com/de24world) |
+| 백엔드(Back End, BE) | 화면 뒤에서 요청을 처리하고 자료를 저장·조회하는 서버를 개발합니다. | 지연 | [jiyeleeee](https://github.com/jiyeleeee) |
+| 인공지능·대규모 언어 모델(Artificial Intelligence / Large Language Model) | 모델에 전달할 질문·지시문과 답변 생성·자료 검색의 실행 흐름을 다룹니다. | 승재 | [casysj](https://github.com/casysj) |
+| 데이터 수집 | 답변에 필요한 자료를 가져오고 분류·검토해 사용할 수 있도록 정리합니다. | 성환 | [sjhwseon-creator](https://github.com/sjhwseon-creator) |
+| 인프라·개발 운영(Infrastructure / Development and Operations, DevOps) | 프로그램 실행에 필요한 기반 환경과 배포·자동 검사·운영을 관리합니다. | 해윤 | [haeyoonjo](https://github.com/haeyoonjo) |
 
 직군별 기술 선택과 구현 일정은 각 작업 폴더에서 기록합니다.
 평가와 사용자 관점은 기획·제품 책임자의 작업에 포함하며 별도 포지션으로 나누지 않습니다.
-
-## 팀원 소개
-
-| 이름 | 담당 | GitHub 아이디 |
-| --- | --- | --- |
-| charlotte | 기획 / 제품 책임자 | [jiyuchoi85](https://github.com/jiyuchoi85) |
-| 박희정 | 기획 / 제품 책임자 | [jenniferpak](https://github.com/jenniferpak) |
-| 호수 | 프론트엔드 | [de24world](https://github.com/de24world) |
-| 이지연 | 백엔드 | [jiyeleeee](https://github.com/jiyeleeee) |
-| 윤승재 | 인공지능·언어 모델 | [casysj](https://github.com/casysj) |
-| 성환 | 데이터 수집 | [sjhwseon-creator](https://github.com/sjhwseon-creator) |
-| 조해윤 | 인프라·개발 운영 | [haeyoonjo](https://github.com/haeyoonjo) |
+영역별 설계 문서는 [현재 구조와 기술](#doc=STRUCTURE.md)에서 확인합니다.
 
 ## 문서 공유
 
@@ -40,4 +31,4 @@
 변경 검토 요청은 다른 사람에게 먼저 내용을 확인받고 기본 브랜치에 합쳐달라고 요청하는 절차입니다.
 코드 변경은 [기여 규칙](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md)의 변경 검토 절차를 따릅니다.
 
-정기 모임: **매주 목요일 18:00 (Europe/Berlin)**.
+모듈별 작업 범위와 담당 상태는 [구조 안내](#doc=STRUCTURE.md)에서 확인합니다.

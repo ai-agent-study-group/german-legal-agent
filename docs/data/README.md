@@ -1,32 +1,70 @@
 ---
-제목: "데이터 수집 작업 공간"
-유형: "작업 공간 안내"
-설명: "데이터 수집 분야의 메모와 작업 내용, 질문 및 공유 자료를 작성하는 공간의 사용 방법을 안내합니다."
+제목: "데이터 수집 설계"
+유형: "위키"
+설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
 관련문서: []
 ---
 
-# 데이터 수집 작업 공간
+# 데이터 수집 설계
+
+[현재 구조와 기술](#doc=STRUCTURE.md) · 영역별 설계: [PO/QA](#doc=po/README.md) · [FE](#doc=fe/README.md) · [BE](#doc=be/README.md) · [LLM](#doc=ai-llm/README.md) · **데이터 수집** · [DevOps](#doc=infra/README.md)
 
 답변에 필요한 자료를 가져오고 분류·검토해 사용할 수 있도록 정리하는 역할입니다.
+전체 작업 메모: [docs/data/data-scope.md](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/docs/data/data-scope.md)
 
-자료 출처, 수집 방식, 분류·검토와 작업 결과를 기록합니다.
+## 1. 목적
 
-## 메모와 작업 공유
+독일 임대차법(**Mietrecht**) 관련 법률·판례 데이터를 수집·구조화합니다. 활용 목표:
 
-이 폴더에 `.md` 문서를 자유롭게 추가할 수 있습니다.
-메모·진행한 작업·결정한 이유·막힌 점·참고 링크 등 공유하고 싶은 내용을 남겨주세요.
-파일 이름 예시: `2026-10-15-work-note.md`, `api-notes.md`, `ideas.md`.
+- 관련 법률 검색 · 유사 판례 검색
+- Agent의 법률 근거 제공 (RAG / Vector Search)
+- 답변의 출처 및 Citation 제공
+- Evaluation / QA용 테스트 데이터 구축
 
-**Markdown 문서와 문서용 이미지 변경은 변경 검토 요청(Pull Request, PR)이 필수가 아닙니다.**
-변경 검토 요청은 내용을 다른 사람에게 먼저 확인받고 기본 브랜치에 합쳐달라고 요청하는 절차입니다. 저장소 쓰기 권한이 있으면 GitHub에서 직접 저장할 수 있습니다.
-코드나 사이트 화면·설정을 함께 바꿀 때는 변경 검토 절차를 따릅니다.
+## 2. 현재 MVP 범위
 
-## 문서 작성 시작하기
+독일 내 주거용 임대차 관계에서 발생하는 **세입자(Mieter)와 임대인(Vermieter) 간 분쟁**을 우선 대상으로 합니다. 세부 범위는 PO·팀과 협의해 확정합니다.
 
-1. 왼쪽 메뉴에서 이 폴더를 펼친 뒤 **새 문서 작성**을 누릅니다.
-2. 파일 이름의 `new-note.md`를 원하는 이름으로 바꿉니다.
-3. 제목과 내용을 적고 미리보기(`Preview`)로 확인합니다.
-4. 변경 저장(`Commit changes`)에서 기본 브랜치인 `main`에 직접 저장합니다. 다른 사람에게 먼저 검토받고 싶으면 변경 검토 요청을 선택해도 됩니다.
+**초기 후보 카테고리:** Kaution · Mietminderung · Wohnungsmängel · Schimmel · Nebenkosten · Kündigung · Eigenbedarf · Mieterhöhung · Schönheitsreparaturen
 
-기존 문서를 수정하려면 문서를 연 뒤 상단 **GitHub에서 수정**을 누릅니다.
-새 문서는 저장·배포 후 이 폴더의 메뉴에 자동으로 나타납니다.
+초기 MVP에서는 모든 카테고리를 다루지 않고, 팀 논의로 우선순위 높은 일부를 선정합니다.
+
+## 3. 수집 대상 데이터
+
+### 3.1 법률 데이터
+
+법률명 · 조항 번호 · 조항 원문 · 관련 키워드 · 공식 출처 · 현재 유효 여부
+
+### 3.2 판례 데이터
+
+Gericht · Gerichtsebene · Datum · Aktenzeichen · ECLI · Rechtsgebiet · Kategorie · Unterkategorie · 관련 법률 조항 · Sachverhalt · Rechtsfrage · Entscheidung · Begründung · Volltext · Quelle
+
+## 4. 데이터 출처 (후보)
+
+- 공식 독일 법률 정보
+- 공식 판례 데이터베이스
+- Bundesländer 중 한 주 선택 (z.B. Bayern, Berlin, NRW)
+- Open Legal Data
+
+공식 출처는 검증 기준으로, 비공식·가공 데이터는 검색·개발 편의를 위한 보조 수단으로 사용합니다.
+
+## 5. 초기 지역·법원 범위
+
+프로젝트 복잡도를 고려해 제한적으로 시작합니다.
+
+- 지역: ?
+- 법원: Amtsgericht, Landgericht (상급심 판례는 필요 시 추가)
+
+## 6. MVP 제외·추후 검토
+
+Gewerbemietrecht · Sozialrecht상의 주거 지원 · 공공주택 관련 Verwaltungsrecht · 형사 사건 · 일반 인권/기본권 전체 · 독일 전 지역의 모든 판례
+
+## 7. 다음 단계
+
+1. PO와 Mietrecht 세부 범위 확정
+2. 우선 카테고리 선정
+3. 데이터 출처 조사
+4. 판례 데이터 Schema 정의
+5. 카테고리별 Sample Case 수집
+6. Backend 담당자와 DB 구조 검토 ([구조 BE](#doc=be/README.md))
+7. LLM 담당자와 검색·Retrieval 요구사항 검토 ([구조 LLM](#doc=ai-llm/README.md))

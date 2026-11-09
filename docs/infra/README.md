@@ -1,32 +1,36 @@
 ---
-제목: "인프라·개발 운영(Infrastructure / Development and Operations, DevOps) 작업 공간"
-유형: "작업 공간 안내"
-설명: "인프라·개발 운영 분야의 메모와 작업 내용, 질문 및 공유 자료를 작성하는 공간의 사용 방법을 안내합니다."
+제목: "DevOps 설계"
+유형: "위키"
+설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
 관련문서: []
 ---
 
-# 인프라·개발 운영(Infrastructure / Development and Operations, DevOps) 작업 공간
+# DevOps 설계
+
+[현재 구조와 기술](#doc=STRUCTURE.md) · 영역별 설계: [PO/QA](#doc=po/README.md) · [FE](#doc=fe/README.md) · [BE](#doc=be/README.md) · [LLM](#doc=ai-llm/README.md) · [데이터 수집](#doc=data/README.md) · **DevOps**
 
 프로그램 실행에 필요한 기반 환경과 배포·자동 검사·운영을 관리하는 역할입니다.
 
-개발 환경, 배포, 자동 검사와 운영 메모를 기록합니다.
+## 1. 자동 검사(CI)
 
-## 메모와 작업 공유
+변경 검토 요청을 올리면 GitHub가 자동으로 검사합니다. 설정: [`.github/workflows/ci.yml`](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/.github/workflows/ci.yml)
 
-이 폴더에 `.md` 문서를 자유롭게 추가할 수 있습니다.
-메모·진행한 작업·결정한 이유·막힌 점·참고 링크 등 공유하고 싶은 내용을 남겨주세요.
-파일 이름 예시: `2026-10-15-work-note.md`, `api-notes.md`, `ideas.md`.
+| 검사 | 무엇을 보나 |
+| --- | --- |
+| Lint | 코드 스타일·흔한 실수 (안 쓰는 변수, 들여쓰기·따옴표 규칙) |
+| Typecheck | 타입 오류 (숫자 자리에 문자열 등) |
+| Test | 코드가 의도대로 동작하는지 (`web/`의 agent·수집 로직) |
 
-**Markdown 문서와 문서용 이미지 변경은 변경 검토 요청(Pull Request, PR)이 필수가 아닙니다.**
-변경 검토 요청은 내용을 다른 사람에게 먼저 확인받고 기본 브랜치에 합쳐달라고 요청하는 절차입니다. 저장소 쓰기 권한이 있으면 GitHub에서 직접 저장할 수 있습니다.
-코드나 사이트 화면·설정을 함께 바꿀 때는 변경 검토 절차를 따릅니다.
+문서만 바꾸면 변경 검토 요청 없이 직접 저장할 수 있습니다. 코드 변경에서는 검사 통과가 병합 조건입니다.
 
-## 문서 작성 시작하기
+## 2. 문서 사이트
 
-1. 왼쪽 메뉴에서 이 폴더를 펼친 뒤 **새 문서 작성**을 누릅니다.
-2. 파일 이름의 `new-note.md`를 원하는 이름으로 바꿉니다.
-3. 제목과 내용을 적고 미리보기(`Preview`)로 확인합니다.
-4. 변경 저장(`Commit changes`)에서 기본 브랜치인 `main`에 직접 저장합니다. 다른 사람에게 먼저 검토받고 싶으면 변경 검토 요청을 선택해도 됩니다.
+- `docs/`를 GitHub Pages로 배포. 설정: `Deploy from a branch → main → /docs`
+- 화면·메뉴·스타일은 `docs/index.html` 하나로 구성
+- 로컬 미리보기: 루트에서 `npm install && npm run docs:dev` → http://localhost:4173
 
-기존 문서를 수정하려면 문서를 연 뒤 상단 **GitHub에서 수정**을 누릅니다.
-새 문서는 저장·배포 후 이 폴더의 메뉴에 자동으로 나타납니다.
+## 3. 정할 것 (미정)
+
+- 서비스 배포 대상·방식 (FE 서버 유무, BE 언어에 따라 달라짐)
+- 개발 환경 공유 여부, API 예산·키 관리
+- 커밋하지 않을 것: 키(`.env`)·실행 결과·개인정보. `.gitignore`로 막고, 실수로 올렸으면 키를 즉시 폐기

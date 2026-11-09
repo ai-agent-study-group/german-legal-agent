@@ -1,49 +1,68 @@
 ---
-제목: "현재 코드 구조와 연결"
-유형: "참고 자료"
-설명: "현재 데모의 코드 위치와 아직 정하지 않은 구조, 각 담당자가 폴더를 만들어 작업하는 방식을 설명합니다."
+제목: "현재 구조와 기술"
+유형: "위키"
+설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
 관련문서: []
 ---
 
-# 현재 코드 구조와 연결
+# 현재 구조와 기술
 
-이 문서는 현재 코드의 위치와 영역 사이의 연결을 설명합니다.
+영역별 설계: [BE](#doc=be/README.md) · [LLM](#doc=ai-llm/README.md) · [FE](#doc=fe/README.md) · [데이터 수집](#doc=data/README.md) · [DevOps](#doc=infra/README.md) · [PO/QA](#doc=po/README.md)
 
-프로그램 사이의 연결 규칙을 API(Application Programming Interface)라고 합니다. 화면의 요청을 서버가 처리하고 결과를 돌려주는 약속입니다.
+독일 법률 정보를 제공하는 agent를 함께 만드는 스터디입니다. 현재는 **킥오프·기획 단계**입니다. 최종 폴더 구조·언어·서버 구성은 아직 정해지지 않았고, 아래는 현재 데모의 위치와 분리 후보를 정리한 참고 자료입니다.
 
-## 현재와 앞으로 정할 구조
+## 전체 구조
 
-**프로젝트의 최종 폴더 구조는 아직 정해지지 않았습니다.** 아래 표는 현재 데모의 위치와 분리 후보를 정리한 참고 자료입니다.
-각 담당자는 맡은 분야에 필요한 폴더를 직접 만들고, 작업하면서 내용과 구조를 수정·업데이트할 수 있습니다.
-기술 선택과 작업 기록은 해당 분야의 폴더에서 관리하고, 다른 분야와 연결되는 부분은 관련 담당자와 공유합니다.
+1. **기능 흐름 후보:** 공식 자료 수집 → 분류·검토·저장 → 질문에 맞는 검색 → agent 응답 → 웹에서 설명·출처 확인
+2. **현재 데모:** 사용자 화면은 `web/`(Next.js)에 있음. 서버(BE)·수집(ingestion)·평가(eval)·인프라(infra)는 README만 있는 논의용 폴더
+3. **아직 정하지 않은 것:** Python 별도 BE를 둘지 Next.js 서버를 유지할지, 역할별 폴더 내부를 어떻게 나눌지, 데이터 저장소·모델 선택
 
-먼저 무엇을 어느 역할로 나눌지 논의하고, 구현 언어와 실행 방식에 맞춰 폴더·패키지 구조를 정할 수 있습니다.
-한 저장소 안에서 폴더를 나누는 것과 여러 서버로 배포하는 것은 별개의 결정입니다.
+한 저장소 안에서 폴더를 나누는 것과 여러 서버로 배포하는 것은 별개의 결정입니다. 먼저 무엇을 어느 역할로 나눌지 논의한 뒤 언어·실행 방식에 맞춰 폴더·패키지 구조를 정합니다.
 
-| 기능 | 현재 데모 위치 | 분리 경로 후보 |
+<a id="scope"></a>
+
+## 1. 첫 구현 범위 (MVP)
+
+- **법률 영역:** 독일 임대차법(**Mietrecht**)을 우선 대상으로 함. 세입자(Mieter)·임대인(Vermieter) 간 주거용 임대차 분쟁 ([데이터 수집](#doc=data/README.md) 참고)
+- **대표 흐름:** 질문 입력 → 관련 법률·판례 검색(RAG) → agent가 근거·출처와 함께 답변 → 웹에서 설명·Citation 확인
+- **미정:** MVP에 필요한 기능 단위, 첫 분야의 대표 질문, 꼭 필요한 기능과 보류할 것 → 미팅에서 논의
+- **제외·추후:** Gewerbemietrecht, 형사 사건, 독일 전 지역 전체 판례 등은 추후 검토
+
+<a id="collaboration"></a>
+
+## 2. 협업 방식
+
+**정기 모임: 매주 목요일 18:00 (Europe/Berlin).** Discord에서 진행합니다.
+
+- **문서:** 저장소의 Markdown 파일로 관리. Markdown 문서·문서용 이미지만 바꾸면 변경 검토 요청(PR) 없이 `main`에 직접 저장 가능
+- **코드:** 코드·사이트 화면·설정 변경은 [기여 규칙](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md)의 변경 검토 절차(브랜치 → PR → 자동 검사 → 병합)를 따름
+- **자동 검사(CI):** Lint · Typecheck · Test. 설정은 [`.github/workflows/ci.yml`](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/.github/workflows/ci.yml)
+
+### 진행 방식
+
+1. 역할별로 필요한 작업을 각 직군 폴더·회의에서 정리
+2. MVP 범위와 역할 경계, 함께 수정할 데이터 형식을 논의해 구체화
+3. 그 경계에 맞는 언어·프레임워크·구조를 정하고 작업 시작
+
+<a id="roles"></a>
+
+## 3. 역할 분담
+
+주 담당은 아래와 같고, 누구나 관심 있는 분야 채널에 참여해 함께 작업할 수 있습니다. 자세한 내용은 [역할](#doc=TEAM.md) 참고.
+
+| 역할 | 주 담당 | 설계 문서 |
 | --- | --- | --- |
-| 사용자 화면 | `web/app/`, `web/components/`, `web/hooks/` | `web/` |
-| 공통 기획·회의 문서 | `docs/` | `docs/` |
+| 기획·제품 책임자(PO) | charlotte · 희정 | [구조 PO/QA](#doc=po/README.md) |
+| 프론트엔드(FE) | 호수 | [구조 FE](#doc=fe/README.md) |
+| 백엔드(BE) | 지연 | [구조 BE](#doc=be/README.md) |
+| 인공지능·언어 모델(AI/LLM) | 승재 | [구조 LLM](#doc=ai-llm/README.md) |
+| 데이터 수집 | 성환 | [구조 데이터 수집](#doc=data/README.md) |
+| 인프라·개발 운영(DevOps) | 해윤 | [구조 DevOps](#doc=infra/README.md) |
 
-현재 자료 접근 코드는 단순 파일 복사로 옮길 수 있다고 가정하지 않습니다.
-서버 코드와 파일 경로, 데이터 형식은 영역을 나눌 때 함께 확인해야 합니다.
+## 참고 자료
 
-## 연결 지점에서 정할 것
-
-| 연결 | 질문 | 합의 |
-| --- | --- | --- |
-| 웹 ↔ API | 요청·응답 형식, 오류, 출처·실행 기록을 어떻게 전달할까? | ? |
-| API ↔ agent | 같은 프로세스의 함수 호출인가, 별도 서비스인가? | ? |
-| 수집 ↔ 저장 | 자료 ID·분류·날짜·검토 상태를 어떤 형식으로 남길까? | ? |
-| 검색 ↔ agent | 검색 결과와 본문을 어떤 도구·형식으로 전달할까? | ? |
-| 구현 ↔ 평가 | 공통 질문과 실행 결과를 어디에 어떤 형식으로 기록할까? | ? |
-
-## 실제 분리 전에 논의할 순서
-
-1. 최소 기능 제품(Minimum Viable Product, MVP)에 필요한 기능과 학습하고 싶은 역할은 무엇인가?
-2. 역할별 경계와 함께 수정할 데이터 형식은 무엇인가?
-3. 그 경계에 맞는 언어·프레임워크·패키지 구조는 무엇인가?
-4. 기존 데모에서 재사용·재작성·이동할 것은 각각 무엇인가?
-5. 무엇부터 분리하고 어떻게 정상 동작을 확인할 것인가?
-
-실제 이동 작업·담당·일정: ?
+- [README.md](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/README.md): 스터디 목표·모임 일정·현재 개발 상태
+- [docs/STRUCTURE.md](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/docs/STRUCTURE.md): 현재 코드 구조와 연결 지점
+- [docs/TEAM.md](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/docs/TEAM.md): 역할·팀원
+- [CONTRIBUTING.md](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md): 브랜치·PR 규칙
+- [문서 사이트 안내(GITHUB_GUIDE)](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/docs/GITHUB_GUIDE.md): 누구나 문서 작성·수정하기
