@@ -131,9 +131,9 @@ jobs:
           assert convert_links("![i](img.png)") == "![i](img.png)", "image kept"
 
           # 사이드바 파싱 자체 점검 (구조/라벨만 — route 는 live 페이지에 의존하므로 제외)
-          _sb = build_sidebar("### 📚 목차\n* [[Home]]\n**안내**\n* [[역할|우리 역할]]\n* [외부](https://a.com)\n")
+          _sb = build_sidebar("### 📚 목차\n* [[Home]]\n**안내**\n* [[역할]]\n* [외부](https://a.com)\n")
           assert [s["title"] for s in _sb] == ["📚 목차", "안내"], _sb
-          assert [i["label"] for i in _sb[1]["items"]] == ["우리 역할", "외부"], _sb
+          assert [i["label"] for i in _sb[1]["items"]] == ["역할", "외부"], _sb
           assert _sb[1]["items"][1].get("url") == "https://a.com", _sb
 
           def build(md):
