@@ -1,0 +1,149 @@
+name: Sync Wiki to Docs
+
+# wiki 편집(gollum) 시 wiki 저장소를 docs/ 사이트 구조에 매핑해 덮어씀 → main 커밋 → Jekyll Pages 재빌드.
+# wiki 가 단일 소스. 문서 내용은 전부 wiki 에서 오고, docs 의 대응 파일은 덮어쓰기(수정)된다.
+on:
+  gollum:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-wiki
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Clone wiki
+        run: git clone https://github.com/${{ github.repository }}.wiki.git wiki
+
+      - name: Map wiki pages into docs site
+        run: |
+          python3 - <<'PY'
+          import pathlib, re
+
+          WIKI = pathlib.Path("wiki")
+          DOCS = pathlib.Path("docs")
+
+          # wiki 파일명(gollum: 공백 -> -) -> docs 경로. SPA nav 가 이 경로 구조에 맞춰 자동 렌더.
+          MAPPING = {
+              "Home": "STRUCTURE.md",
+              "역할": "TEAM.md",
+              "Wiki-작성법": "GITHUB_GUIDE.md",
+              "구조-PO-QA": "po/README.md",
+              "구조-FE": "fe/README.md",
+              "구조-BE": "be/README.md",
+              "구조-LLM": "ai-llm/README.md",
+              "구조-데이터-수집": "data/README.md",
+              "구조-DevOps": "infra/README.md",
+              "회의록-양식": "meetings/TEMPLATE.md",
+          }
+
+          # wiki = 단일 소스로 전환하며 제거할, 더 이상 wiki 에 대응이 없는 기존 수제 문서.
+          STALE = ["fe/tech-stack.md", "data/data-scope.md", "meetings/2026-10-15.md"]
+
+          def target_path(stem):
+              if stem in MAPPING:
+                  return MAPPING[stem]
+              # 날짜로 시작하거나 회의 관련 -> 회의 기록 폴더
+              if re.match(r"^\d", stem) or any(k in stem for k in ("회의록", "회의", "킥오프")):
+                  return f"meetings/{stem}.md"
+              return f"{stem}.md"  # 그 외 신규 -> 루트(추가 문서 섹션에 자동 등록)
+
+          # 이번 실행에서 처리할 wiki 페이지 (gollum 전용 _파일 제외)
+          pages = [md for md in sorted(WIKI.rglob("*.md"))
+                   if ".git" not in md.parts and not md.name.startswith("_")]
+
+          slug_to_route = {md.stem: target_path(md.stem) for md in pages}
+
+          def route_for(slug):
+              return slug_to_route.get(slug, f"{slug.strip().replace(' ', '-')}.md")
+
+          # --- gollum 링크 -> SPA 해시 라우트 변환 ---
+          def convert_links(text):
+              def wikilink(m):
+                  inner = m.group(1)
+                  label, target = (inner.split("|", 1) if "|" in inner else (inner, inner))
+                  return f"[{label.strip()}](#doc={route_for(target.strip().replace(' ', '-'))})"
+
+              def inline(m):
+                  label, target = m.group(1), m.group(2).strip()
+                  # 외부/절대/메일/이미 해시 링크는 그대로
+                  if re.match(r"^[a-zA-Z][\w+.-]*:", target) or target[:1] in ("/", "#"):
+                      return m.group(0)
+                  anchor = ""
+                  if "#" in target:
+                      target, anchor = target.split("#", 1)
+                  if not target:
+                      return m.group(0)
+                  route = route_for(target.replace(" ", "-"))
+                  sec = f"&section={anchor}" if anchor else ""
+                  return f"[{label}](#doc={route}{sec})"
+
+              text = re.sub(r"\[\[([^\]]+)\]\]", wikilink, text)
+              # ponytail: 코드블록 내 링크는 그대로 둘 수도 있으나 wiki 문서엔 드묾. 단순 정규식으로 처리.
+              text = re.sub(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)", inline, text)
+              return text
+
+          # 로직 보호용 자체 점검 (money-path: 링크 변환)
+          assert convert_links("[[역할]]") == "[역할](#doc=TEAM.md)", "wikilink"
+          assert convert_links("[FE](구조-FE)") == "[FE](#doc=fe/README.md)", "inline"
+          assert convert_links("[s](구조-데이터-수집#scope)") == "[s](#doc=data/README.md&section=scope)", "anchor"
+          assert convert_links("[x](https://a.com/b)") == "[x](https://a.com/b)", "external kept"
+          assert convert_links("![i](img.png)") == "![i](img.png)", "image kept"
+
+          def build(md):
+              text = convert_links(md.read_text(encoding="utf-8"))
+              m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
+              title = (m.group(1).strip() if m else md.stem.replace("-", " ")).replace('"', "'")
+              if text.lstrip().startswith("---"):
+                  return text  # 이미 front matter 있으면 유지
+              fm = (f'---\n제목: "{title}"\n유형: "위키"\n'
+                    f'설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."\n관련문서: []\n---\n\n')
+              return fm + text
+
+          MARKER = "GitHub Wiki 에서 자동 동기화된 문서입니다."
+
+          # 1) 이전에 자동 동기화됐던 문서 중 이번 wiki 에 없는 것(orphan) 삭제
+          targets = {target_path(md.stem) for md in pages}
+          for existing in DOCS.rglob("*.md"):
+              rel = existing.relative_to(DOCS).as_posix()
+              if rel in targets:
+                  continue
+              if MARKER in existing.read_text(encoding="utf-8"):
+                  existing.unlink()
+                  print(f"removed orphan: {rel}")
+
+          # 2) wiki = 단일 소스 전환용 수제 문서 제거
+          for rel in STALE:
+              p = DOCS / rel
+              if p.exists():
+                  p.unlink()
+                  print(f"removed stale: {rel}")
+
+          # 3) wiki 페이지를 docs 경로에 기록(덮어쓰기)
+          for md in pages:
+              out = DOCS / target_path(md.stem)
+              out.parent.mkdir(parents=True, exist_ok=True)
+              out.write_text(build(md), encoding="utf-8")
+              print(f"wrote: {out.relative_to(DOCS).as_posix()}")
+          PY
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs
+          if git diff --cached --quiet; then
+            echo "No doc changes."
+          else
+            git commit -m "docs: sync wiki to site"
+            git push
+          fi
