@@ -2,12 +2,11 @@
 제목: "현재 구조와 기술"
 유형: "위키"
 설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
-관련문서: []
 ---
 
 # 현재 구조와 기술
 
-영역별 설계: [BE](#doc=be/README.md) · [LLM](#doc=ai-llm/README.md) · [FE](#doc=fe/README.md) · [데이터 수집](#doc=data/README.md) · [DevOps](#doc=infra/README.md) · [PO/QA](#doc=po/README.md)
+영역별 설계: [BE](#doc=wiki/구조-BE.md) · [LLM](#doc=wiki/구조-LLM.md) · [FE](#doc=wiki/구조-FE.md) · [데이터 수집](#doc=wiki/구조-데이터-수집.md) · [DevOps](#doc=wiki/구조-DevOps.md) · [PO/QA](#doc=wiki/구조-PO-QA.md)
 
 독일 법률 정보를 제공하는 agent를 함께 만드는 스터디입니다. 현재는 **킥오프·기획 단계**입니다. 최종 폴더 구조·언어·서버 구성은 아직 정해지지 않았고, 아래는 현재 데모의 위치와 분리 후보를 정리한 참고 자료입니다.
 
@@ -23,7 +22,7 @@
 
 ## 1. 첫 구현 범위 (MVP)
 
-- **법률 영역:** 독일 임대차법(**Mietrecht**)을 우선 대상으로 함. 세입자(Mieter)·임대인(Vermieter) 간 주거용 임대차 분쟁 ([데이터 수집](#doc=data/README.md) 참고)
+- **법률 영역:** 독일 임대차법(**Mietrecht**)을 우선 대상으로 함. 세입자(Mieter)·임대인(Vermieter) 간 주거용 임대차 분쟁 ([데이터 수집](#doc=wiki/구조-데이터-수집.md) 참고)
 - **대표 흐름:** 질문 입력 → 관련 법률·판례 검색(RAG) → agent가 근거·출처와 함께 답변 → 웹에서 설명·Citation 확인
 - **미정:** MVP에 필요한 기능 단위, 첫 분야의 대표 질문, 꼭 필요한 기능과 보류할 것 → 미팅에서 논의
 - **제외·추후:** Gewerbemietrecht, 형사 사건, 독일 전 지역 전체 판례 등은 추후 검토
@@ -48,16 +47,16 @@
 
 ## 3. 역할 분담
 
-주 담당은 아래와 같고, 누구나 관심 있는 분야 채널에 참여해 함께 작업할 수 있습니다. 자세한 내용은 [역할](#doc=TEAM.md) 참고.
+주 담당은 아래와 같고, 누구나 관심 있는 분야 채널에 참여해 함께 작업할 수 있습니다. 자세한 내용은 [역할](#doc=wiki/역할.md) 참고.
 
 | 역할 | 주 담당 | 설계 문서 |
 | --- | --- | --- |
-| 기획·제품 책임자(PO) | charlotte · 희정 | [구조 PO/QA](#doc=po/README.md) |
-| 프론트엔드(FE) | 호수 | [구조 FE](#doc=fe/README.md) |
-| 백엔드(BE) | 지연 | [구조 BE](#doc=be/README.md) |
-| 인공지능·언어 모델(AI/LLM) | 승재 | [구조 LLM](#doc=ai-llm/README.md) |
-| 데이터 수집 | 성환 | [구조 데이터 수집](#doc=data/README.md) |
-| 인프라·개발 운영(DevOps) | 해윤 | [구조 DevOps](#doc=infra/README.md) |
+| 기획·제품 책임자(PO) | charlotte · 희정 | [구조 PO/QA](#doc=wiki/구조-PO-QA.md) |
+| 프론트엔드(FE) | 호수 | [구조 FE](#doc=wiki/구조-FE.md) |
+| 백엔드(BE) | 지연 | [구조 BE](#doc=wiki/구조-BE.md) |
+| 인공지능·언어 모델(AI/LLM) | 승재 | [구조 LLM](#doc=wiki/구조-LLM.md) |
+| 데이터 수집 | 성환 | [구조 데이터 수집](#doc=wiki/구조-데이터-수집.md) |
+| 인프라·개발 운영(DevOps) | 해윤 | [구조 DevOps](#doc=wiki/구조-DevOps.md) |
 
 ## 참고 자료
 

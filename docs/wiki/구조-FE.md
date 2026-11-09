@@ -2,12 +2,11 @@
 제목: "FE 설계"
 유형: "위키"
 설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
-관련문서: []
 ---
 
 # FE 설계
 
-[현재 구조와 기술](#doc=STRUCTURE.md) · 영역별 설계: [PO/QA](#doc=po/README.md) · **FE** · [BE](#doc=be/README.md) · [LLM](#doc=ai-llm/README.md) · [데이터 수집](#doc=data/README.md) · [DevOps](#doc=infra/README.md)
+[현재 구조와 기술](#doc=wiki/Home.md) · 영역별 설계: [PO/QA](#doc=wiki/구조-PO-QA.md) · **FE** · [BE](#doc=wiki/구조-BE.md) · [LLM](#doc=wiki/구조-LLM.md) · [데이터 수집](#doc=wiki/구조-데이터-수집.md) · [DevOps](#doc=wiki/구조-DevOps.md)
 
 사용자가 직접 보고 조작하는 웹 화면을 개발하는 역할입니다. 현재 데모 화면은 `web/`에 있습니다.
 

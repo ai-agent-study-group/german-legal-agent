@@ -2,12 +2,11 @@
 제목: "BE 설계"
 유형: "위키"
 설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
-관련문서: []
 ---
 
 # BE 설계
 
-[현재 구조와 기술](#doc=STRUCTURE.md) · 영역별 설계: [PO/QA](#doc=po/README.md) · [FE](#doc=fe/README.md) · **BE** · [LLM](#doc=ai-llm/README.md) · [데이터 수집](#doc=data/README.md) · [DevOps](#doc=infra/README.md)
+[현재 구조와 기술](#doc=wiki/Home.md) · 영역별 설계: [PO/QA](#doc=wiki/구조-PO-QA.md) · [FE](#doc=wiki/구조-FE.md) · **BE** · [LLM](#doc=wiki/구조-LLM.md) · [데이터 수집](#doc=wiki/구조-데이터-수집.md) · [DevOps](#doc=wiki/구조-DevOps.md)
 
 화면 뒤에서 요청을 처리하고 자료를 저장·조회하는 서버를 개발하는 역할입니다. **언어·프레임워크는 미정**입니다.
 
@@ -37,4 +36,4 @@
 
 ## 4. 저장소(DB) 논의 입력
 
-[데이터 수집](#doc=data/README.md)의 법률·판례 Schema가 저장소 구조·검색(RAG/Vector Search) 요구의 입력입니다. 데이터 담당·LLM 담당과 함께 DB 구조와 Retrieval 요구사항을 검토합니다.
+[데이터 수집](#doc=wiki/구조-데이터-수집.md)의 법률·판례 Schema가 저장소 구조·검색(RAG/Vector Search) 요구의 입력입니다. 데이터 담당·LLM 담당과 함께 DB 구조와 Retrieval 요구사항을 검토합니다.

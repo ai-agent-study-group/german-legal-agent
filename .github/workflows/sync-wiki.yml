@@ -1,7 +1,9 @@
 name: Sync Wiki to Docs
 
-# wiki 편집(gollum) 시 wiki 저장소를 docs/ 사이트 구조에 매핑해 덮어씀 → main 커밋 → Jekyll Pages 재빌드.
-# wiki 가 단일 소스. 문서 내용은 전부 wiki 에서 오고, docs 의 대응 파일은 덮어쓰기(수정)된다.
+# wiki 편집(gollum) 시 wiki 전체를 docs/wiki/ 로 그대로 복사 → main 커밋 → Jekyll Pages 재빌드.
+# 규칙 하나뿐: wiki 페이지 "구조 FE" -> docs/wiki/구조-FE.md, SPA 경로 wiki/구조-FE.md.
+# 매핑 표 없음 → wiki 에서 뭘 하든(이름 변경·새 페이지·폴더 재배치) CI 는 건드릴 필요 없다.
+# 좌측 목차는 wiki _Sidebar 에서 생성. wiki = 단일 소스, page = 보기 전용.
 on:
   gollum:
   workflow_dispatch:
@@ -24,50 +26,58 @@ jobs:
       - name: Clone wiki
         run: git clone https://github.com/${{ github.repository }}.wiki.git wiki
 
-      - name: Map wiki pages into docs site
+      - name: Copy wiki into docs site
         run: |
           python3 - <<'PY'
-          import pathlib, re, json
+          import pathlib, re, json, shutil
 
           WIKI = pathlib.Path("wiki")
-          DOCS = pathlib.Path("docs")
+          OUT = pathlib.Path("docs/wiki")
 
-          # wiki 파일명(gollum: 공백 -> -) -> docs 경로. SPA nav 가 이 경로 구조에 맞춰 자동 렌더.
-          MAPPING = {
-              "Home": "STRUCTURE.md",
-              "역할": "TEAM.md",
-              "Wiki-작성법": "GITHUB_GUIDE.md",
-              "구조-PO-QA": "po/README.md",
-              "구조-FE": "fe/README.md",
-              "구조-BE": "be/README.md",
-              "구조-LLM": "ai-llm/README.md",
-              "구조-데이터-수집": "data/README.md",
-              "구조-DevOps": "infra/README.md",
-              "회의록-양식": "meetings/TEMPLATE.md",
-          }
+          def route(name):  # wiki 페이지명(공백->-) -> SPA 경로
+              return "wiki/" + name.strip().replace(" ", "-") + ".md"
 
-          # wiki = 단일 소스로 전환하며 제거할, 더 이상 wiki 에 대응이 없는 기존 수제 문서.
-          STALE = ["fe/tech-stack.md", "data/data-scope.md", "meetings/2026-10-15.md"]
+          # gollum 링크 -> SPA 해시 라우트 ([[..]] 와 상대 [라벨](대상))
+          def convert_links(text):
+              def wikilink(m):
+                  inner = m.group(1)
+                  label, target = inner.split("|", 1) if "|" in inner else (inner, inner)
+                  return f"[{label.strip()}](#doc={route(target)})"
 
-          def target_path(stem):
-              if stem in MAPPING:
-                  return MAPPING[stem]
-              # 날짜로 시작하거나 회의 관련 -> 회의 기록 폴더
-              if re.match(r"^\d", stem) or any(k in stem for k in ("회의록", "회의", "킥오프")):
-                  return f"meetings/{stem}.md"
-              return f"{stem}.md"  # 그 외 신규 -> 루트(추가 문서 섹션에 자동 등록)
+              def inline(m):
+                  label, target = m.group(1), m.group(2).strip()
+                  if re.match(r"^[a-zA-Z][\w+.-]*:", target) or target[:1] in ("/", "#"):
+                      return m.group(0)  # 외부/절대/메일/해시는 그대로
+                  anchor = ""
+                  if "#" in target:
+                      target, anchor = target.split("#", 1)
+                  if not target:
+                      return m.group(0)
+                  sec = f"&section={anchor}" if anchor else ""
+                  return f"[{label}](#doc={route(target)}{sec})"
 
-          # 이번 실행에서 처리할 wiki 페이지 (gollum 전용 _파일 제외)
-          pages = [md for md in sorted(WIKI.rglob("*.md"))
-                   if ".git" not in md.parts and not md.name.startswith("_")]
+              text = re.sub(r"\[\[([^\]]+)\]\]", wikilink, text)
+              text = re.sub(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)", inline, text)
+              return text
 
-          slug_to_route = {md.stem: target_path(md.stem) for md in pages}
+          # 링크 변환 자체 점검
+          assert convert_links("[[역할]]") == "[역할](#doc=wiki/역할.md)", "wikilink"
+          assert convert_links("[FE](구조 FE)") == "[FE](#doc=wiki/구조-FE.md)", "inline"
+          assert convert_links("[s](구조 FE#scope)") == "[s](#doc=wiki/구조-FE.md&section=scope)", "anchor"
+          assert convert_links("[x](https://a.com)") == "[x](https://a.com)", "external kept"
+          assert convert_links("![i](assets/a.png)") == "![i](assets/a.png)", "image kept"
 
-          def route_for(slug):
-              return slug_to_route.get(slug, f"{slug.strip().replace(' ', '-')}.md")
+          def build(text, name):
+              body = convert_links(text)
+              if body.lstrip().startswith("---"):
+                  return body  # 작성자가 직접 넣은 front matter 는 유지
+              m = re.search(r"^#\s+(.+)$", body, re.MULTILINE)
+              title = (m.group(1).strip() if m else name.replace("-", " ")).replace('"', "'")
+              fm = (f'---\n제목: "{title}"\n유형: "위키"\n'
+                    f'설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."\n---\n\n')
+              return fm + body
 
-          # wiki _Sidebar.md -> page 좌측 nav 데이터. `**제목**`/`### 제목` = 섹션, `* [[페이지]]` = 항목.
-          # page nav = wiki 목차(단일 소스). 작성/수정/삭제는 wiki 에서, page 는 보기 전용.
+          # _Sidebar.md -> 좌측 nav 데이터. `**제목**`/`### 제목` = 섹션, `* [[페이지]]` = 항목.
           def build_sidebar(text):
               sections, current = [], {"title": None, "items": []}
               sections.append(current)
@@ -83,106 +93,49 @@ jobs:
                   w = re.match(r"^[*\-]\s*\[\[([^\]]+)\]\]", line)
                   if w:
                       inner = w.group(1)
-                      label, target = (inner.split("|", 1) if "|" in inner else (inner, inner))
-                      current["items"].append({"label": label.strip(),
-                                               "route": route_for(target.strip().replace(" ", "-"))})
+                      label, target = inner.split("|", 1) if "|" in inner else (inner, inner)
+                      current["items"].append({"label": label.strip(), "route": route(target)})
                       continue
                   g = re.match(r"^[*\-]\s*\[([^\]]+)\]\(([^)]+)\)", line)
                   if g:
                       label, target = g.group(1).strip(), g.group(2).strip()
-                      if re.match(r"^[a-zA-Z][\w+.-]*:", target):
-                          current["items"].append({"label": label, "url": target})
-                      else:
-                          current["items"].append({"label": label,
-                                                   "route": route_for(target.replace(" ", "-"))})
+                      current["items"].append(
+                          {"label": label, "url": target}
+                          if re.match(r"^[a-zA-Z][\w+.-]*:", target)
+                          else {"label": label, "route": route(target)})
               return [s for s in sections if s["items"]]
 
-          # --- gollum 링크 -> SPA 해시 라우트 변환 ---
-          def convert_links(text):
-              def wikilink(m):
-                  inner = m.group(1)
-                  label, target = (inner.split("|", 1) if "|" in inner else (inner, inner))
-                  return f"[{label.strip()}](#doc={route_for(target.strip().replace(' ', '-'))})"
-
-              def inline(m):
-                  label, target = m.group(1), m.group(2).strip()
-                  # 외부/절대/메일/이미 해시 링크는 그대로
-                  if re.match(r"^[a-zA-Z][\w+.-]*:", target) or target[:1] in ("/", "#"):
-                      return m.group(0)
-                  anchor = ""
-                  if "#" in target:
-                      target, anchor = target.split("#", 1)
-                  if not target:
-                      return m.group(0)
-                  route = route_for(target.replace(" ", "-"))
-                  sec = f"&section={anchor}" if anchor else ""
-                  return f"[{label}](#doc={route}{sec})"
-
-              text = re.sub(r"\[\[([^\]]+)\]\]", wikilink, text)
-              # ponytail: 코드블록 내 링크는 그대로 둘 수도 있으나 wiki 문서엔 드묾. 단순 정규식으로 처리.
-              text = re.sub(r"(?<!!)\[([^\]]+)\]\(([^)]+)\)", inline, text)
-              return text
-
-          # 로직 보호용 자체 점검 (money-path: 링크 변환)
-          assert convert_links("[[역할]]") == "[역할](#doc=TEAM.md)", "wikilink"
-          assert convert_links("[FE](구조-FE)") == "[FE](#doc=fe/README.md)", "inline"
-          assert convert_links("[s](구조-데이터-수집#scope)") == "[s](#doc=data/README.md&section=scope)", "anchor"
-          assert convert_links("[x](https://a.com/b)") == "[x](https://a.com/b)", "external kept"
-          assert convert_links("![i](img.png)") == "![i](img.png)", "image kept"
-
-          # 사이드바 파싱 자체 점검 (구조/라벨만 — route 는 live 페이지에 의존하므로 제외)
           _sb = build_sidebar("### 📚 목차\n* [[Home]]\n**안내**\n* [[역할]]\n* [외부](https://a.com)\n")
           assert [s["title"] for s in _sb] == ["📚 목차", "안내"], _sb
-          assert [i["label"] for i in _sb[1]["items"]] == ["역할", "외부"], _sb
-          assert _sb[1]["items"][1].get("url") == "https://a.com", _sb
+          assert _sb[0]["items"][0] == {"label": "Home", "route": "wiki/Home.md"}, _sb
+          assert _sb[1]["items"][1] == {"label": "외부", "url": "https://a.com"}, _sb
 
-          def build(md):
-              text = convert_links(md.read_text(encoding="utf-8"))
-              m = re.search(r"^#\s+(.+)$", text, re.MULTILINE)
-              title = (m.group(1).strip() if m else md.stem.replace("-", " ")).replace('"', "'")
-              if text.lstrip().startswith("---"):
-                  return text  # 이미 front matter 있으면 유지
-              fm = (f'---\n제목: "{title}"\n유형: "위키"\n'
-                    f'설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."\n관련문서: []\n---\n\n')
-              return fm + text
+          # 전량 재생성: 삭제 동기화가 공짜로 됨
+          if OUT.exists():
+              shutil.rmtree(OUT)
+          OUT.mkdir(parents=True)
 
-          MARKER = "GitHub Wiki 에서 자동 동기화된 문서입니다."
-
-          # 1) 이전에 자동 동기화됐던 문서 중 이번 wiki 에 없는 것(orphan) 삭제
-          targets = {target_path(md.stem) for md in pages}
-          for existing in DOCS.rglob("*.md"):
-              rel = existing.relative_to(DOCS).as_posix()
-              if rel in targets:
-                  continue
-              if MARKER in existing.read_text(encoding="utf-8"):
-                  existing.unlink()
-                  print(f"removed orphan: {rel}")
-
-          # 2) wiki = 단일 소스 전환용 수제 문서 제거
-          for rel in STALE:
-              p = DOCS / rel
-              if p.exists():
-                  p.unlink()
-                  print(f"removed stale: {rel}")
-
-          # 3) wiki 페이지를 docs 경로에 기록(덮어쓰기)
+          pages = [md for md in sorted(WIKI.rglob("*.md"))
+                   if ".git" not in md.parts and not md.name.startswith("_")]
           for md in pages:
-              out = DOCS / target_path(md.stem)
-              out.parent.mkdir(parents=True, exist_ok=True)
-              out.write_text(build(md), encoding="utf-8")
-              print(f"wrote: {out.relative_to(DOCS).as_posix()}")
+              (OUT / f"{md.stem}.md").write_text(
+                  build(md.read_text(encoding="utf-8"), md.stem), encoding="utf-8")
+              print(f"wrote: wiki/{md.stem}.md")
 
-          # 4) wiki _Sidebar -> page 좌측 nav 데이터 (Jekyll site.data.sidebar / preview 공용)
-          sidebar_src = WIKI / "_Sidebar.md"
-          data_dir = DOCS / "_data"
+          # wiki 이미지(assets/) 함께 복사
+          assets = WIKI / "assets"
+          if assets.is_dir():
+              shutil.copytree(assets, OUT / "assets")
+              print("copied: wiki/assets/")
+
+          # _Sidebar -> 좌측 nav 데이터 (Jekyll site.data.sidebar / 로컬 preview 공용)
+          data_dir = pathlib.Path("docs/_data")
           data_dir.mkdir(parents=True, exist_ok=True)
-          if sidebar_src.exists():
-              sb = build_sidebar(sidebar_src.read_text(encoding="utf-8"))
-              (data_dir / "sidebar.json").write_text(
-                  json.dumps(sb, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-              print(f"wrote nav: _data/sidebar.json ({len(sb)} sections)")
-          else:
-              print("no _Sidebar.md in wiki; nav unchanged")
+          sb_src = WIKI / "_Sidebar.md"
+          sb = build_sidebar(sb_src.read_text(encoding="utf-8")) if sb_src.exists() else []
+          (data_dir / "sidebar.json").write_text(
+              json.dumps(sb, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          print(f"wrote nav: _data/sidebar.json ({len(sb)} sections)")
           PY
 
       - name: Commit if changed

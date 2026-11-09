@@ -2,12 +2,11 @@
 제목: "DevOps 설계"
 유형: "위키"
 설명: "GitHub Wiki 에서 자동 동기화된 문서입니다."
-관련문서: []
 ---
 
 # DevOps 설계
 
-[현재 구조와 기술](#doc=STRUCTURE.md) · 영역별 설계: [PO/QA](#doc=po/README.md) · [FE](#doc=fe/README.md) · [BE](#doc=be/README.md) · [LLM](#doc=ai-llm/README.md) · [데이터 수집](#doc=data/README.md) · **DevOps**
+[현재 구조와 기술](#doc=wiki/Home.md) · 영역별 설계: [PO/QA](#doc=wiki/구조-PO-QA.md) · [FE](#doc=wiki/구조-FE.md) · [BE](#doc=wiki/구조-BE.md) · [LLM](#doc=wiki/구조-LLM.md) · [데이터 수집](#doc=wiki/구조-데이터-수집.md) · **DevOps**
 
 프로그램 실행에 필요한 기반 환경과 배포·자동 검사·운영을 관리하는 역할입니다.
 
