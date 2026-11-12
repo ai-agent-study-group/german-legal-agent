@@ -4,7 +4,7 @@ from groq import Groq
 
 client = Groq()  # 환경변수 GROQ_API_KEY 를 자동으로 읽음
 
-MODEL = "openai/gpt-oss-20b"  # Groq 호스팅 모델. 도구 호출 지원. 바꾸려면 이 문자열만 수정
+MODEL = "openai/gpt-oss-120b"  # Groq 호스팅 모델. 도구 호출 지원. 바꾸려면 이 문자열만 수정
 MAX_STEPS = 3  # 루프 상한. 모델이 도구만 계속 부르는 경우에 비용이 무한히 늘지 않게 한다
 
 # 1) "법 데이터베이스" 대신 쓰는 가짜 데이터 (설명용 요약본, 실제 법률 조언용 아님)
