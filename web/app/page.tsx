@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  ArrowRight,
   House,
   MapPin,
   FolderSearch,
@@ -7,7 +8,6 @@ import {
   MessageCircle,
   ArrowUpRight,
 } from "lucide-react";
-import { ChatPanel } from "@/components/chat-panel";
 export default function Home() {
   return (
     <main id="main" className="page-shell py-12 sm:py-20">
@@ -25,32 +25,40 @@ export default function Home() {
             독일의 주거와 체류에 관한 정보를 한국어로 확인하세요. 관련 공식
             자료와 원문 출처를 함께 안내합니다.
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="/housing"
-              className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-blue-700"
-            >
-              <House size={16} /> 주거·임대 질문
-            </Link>
-            <Link
-              href="/visa"
-              className="inline-flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-medium text-white transition hover:bg-emerald-700"
-            >
-              <MapPin size={16} /> 체류·비자 질문
-            </Link>
-          </div>
+          <Link
+            href="/housing"
+            className="mt-7 inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3 text-sm font-medium text-white"
+          >
+            질문 시작하기 <ArrowRight size={16} />
+          </Link>
           <p className="mt-4 text-xs text-slate-500">
             현재는 AI API 없이 실행하는 학습용 데모입니다.
           </p>
         </div>
-        <div>
-          <div className="mb-3 flex items-center gap-2 text-xs font-medium text-slate-600">
+        <div className="relative rounded-[2rem] bg-[#edf2f7] p-6 sm:p-9">
+          <div className="flex items-center gap-2 text-xs font-medium text-slate-600">
             <span className="size-2 rounded-full bg-blue-500" />
-            아래에서 바로 질문해보세요
+            질문에서 근거 있는 설명까지
           </div>
-          <ChatPanel domain="housing" />
-          <p className="mt-4 text-center text-xs text-slate-600">
-            메인에서 바로 동작하는 실제 데모입니다
+          <div className="ml-8 mt-7 rounded-2xl rounded-tr-sm bg-blue-600 p-5 text-sm text-white shadow-lg shadow-blue-900/10">
+            보증금은 나눠 낼 수 있나요?
+          </div>
+          <div className="mt-4 rounded-2xl bg-white p-6 shadow-sm">
+            <div className="mb-4 flex items-center gap-2 text-xs text-slate-500">
+              <FolderSearch size={16} />
+              공식 자료에서 관련 내용 확인
+            </div>
+            <p className="text-sm leading-7">
+              질문에 맞는 자료를 찾고,
+              <br />
+              본문과 출처를 함께 확인합니다.
+            </p>
+            <div className="mt-5 rounded-xl bg-slate-50 px-4 py-3 text-xs text-slate-500">
+              검색 → 읽기 → 답변
+            </div>
+          </div>
+          <p className="mt-5 text-center text-xs text-slate-600">
+            개념을 설명하기 위한 예시 화면
           </p>
         </div>
       </section>

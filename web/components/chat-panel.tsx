@@ -33,9 +33,7 @@ export function ChatPanel({ domain }: { domain: Domain }) {
     <div className="soft-card flex min-h-[570px] flex-col overflow-hidden">
       <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4 sm:px-7">
         <div className="flex items-center gap-3">
-          <span
-            className={`flex size-9 items-center justify-center rounded-xl ${config.theme.iconWrap}`}
-          >
+          <span className="flex size-9 items-center justify-center rounded-xl bg-blue-50 text-blue-600">
             <Compass size={19} />
           </span>
           <div>
@@ -81,7 +79,7 @@ export function ChatPanel({ domain }: { domain: Domain }) {
                 <button
                   key={q}
                   onClick={() => void send(q)}
-                  className={`rounded-xl border border-slate-200 px-4 py-3 text-left text-sm text-slate-600 transition ${config.theme.exampleHover}`}
+                  className="rounded-xl border border-slate-200 px-4 py-3 text-left text-sm text-slate-600 transition hover:border-blue-300 hover:bg-blue-50"
                 >
                   {q} <span className="float-right text-slate-500">↗</span>
                 </button>
@@ -94,7 +92,7 @@ export function ChatPanel({ domain }: { domain: Domain }) {
             key={message.id}
             className={
               message.role === "user"
-                ? `ml-auto max-w-[88%] rounded-2xl rounded-tr-sm ${config.theme.userBubble} px-5 py-4 text-sm leading-7 text-white`
+                ? "ml-auto max-w-[88%] rounded-2xl rounded-tr-sm bg-blue-600 px-5 py-4 text-sm leading-7 text-white"
                 : "max-w-[95%]"
             }
           >

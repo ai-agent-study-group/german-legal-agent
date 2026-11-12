@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+.env*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+data/pending/*.json
+!data/pending/.gitkeep
+*.tsbuildinfo
+.DS_Store
+next-env.d.ts
