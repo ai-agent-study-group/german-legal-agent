@@ -2,6 +2,7 @@ import argparse
 import json
 import os
 import re
+import time
 from html import unescape
 from contextlib import contextmanager
 from pathlib import Path
@@ -57,6 +58,9 @@ def normalize_case(case):
     }
 
 
+SAVE_RETRY_DELAYS = (0.1, 0.2, 0.4, 0.8, 1.6, 2.0, 2.0, 2.0)
+
+
 def save_json(data, output_file):
     output_file.parent.mkdir(
         parents=True,
@@ -64,17 +68,36 @@ def save_json(data, output_file):
     )
 
     with NamedTemporaryFile(
-        mode="w", encoding="utf-8", dir=output_file.parent, delete=False
+        mode="w", encoding="utf-8", dir=output_file.parent,
+        prefix=output_file.name + ".", suffix=".tmp", delete=False,
     ) as file:
         temporary = Path(file.name)
         try:
             json.dump(data, file, ensure_ascii=False, indent=2)
             file.write("\n")
+        except (OSError, TypeError, ValueError):
             file.close()
+            try:
+                temporary.unlink(missing_ok=True)
+            except OSError:
+                pass
+            raise
+
+    # Windows readers and sync clients can briefly deny replacement. Retry the
+    # same serialized file so no collection or AI request needs to be repeated.
+    for attempt in range(len(SAVE_RETRY_DELAYS) + 1):
+        try:
             temporary.replace(output_file)
-        finally:
-            file.close()
-            temporary.unlink(missing_ok=True)
+            return
+        except OSError as error:
+            retryable = isinstance(error, PermissionError) or getattr(error, "winerror", None) in (5, 32, 33)
+            if not retryable or attempt == len(SAVE_RETRY_DELAYS):
+                raise IngestionError(
+                    f"Could not save {output_file.name}: {type(error).__name__}. "
+                    f"Existing file was not deleted. Pending JSON preserved at {temporary}"
+                ) from error
+            print(f"File busy: {output_file.name}; retrying save ({attempt + 1}/{len(SAVE_RETRY_DELAYS)})")
+            time.sleep(SAVE_RETRY_DELAYS[attempt])
 
 
 def main():

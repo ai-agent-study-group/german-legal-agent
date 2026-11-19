@@ -71,6 +71,8 @@ python -B ingestion/Openlegaldata/fetch_cases.py --mietrecht --resume --case-lim
 
 파일별 atomic replace와 프로세스 간 파일 잠금으로 동시 실행과 중단 후 재시도를 보호합니다. 원문을 먼저 저장하고 성공한 요약을 checkpoint합니다. 실행이 강제 중단되어 AI 응답 수신과 checkpoint 사이에서 멈추면 해당 한 건은 다시 요약될 수 있습니다.
 
+Windows에서 OneDrive 등의 일시적인 파일 잠금으로 교체가 거부되면 같은 임시 JSON으로 최대 8회 재시도합니다. 대기 시간 합계는 약 9초이며 이 과정에서 수집이나 AI 호출을 반복하지 않습니다. 잠금이 계속되면 기존 JSON과 미저장 임시 JSON을 모두 보존하고, 로그에 임시 파일 경로를 표시합니다.
+
 실행 요약에는 기존 law 필드와 함께 existing_cases, new_cases_added, duplicate_cases_skipped(고유 중복 ID 수), total_cases, ai_summaries_generated, summarization_failed가 저장됩니다. parsing_failures.json과 ingestion_summary.json은 가장 최근 실행 결과입니다.
 
 오프라인 회귀 테스트

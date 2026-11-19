@@ -43,6 +43,42 @@ class IncrementalTests(unittest.TestCase):
     def read(self, filename):
         return json.loads((cases.RAW_OUTPUT_FILE.parent / filename).read_text(encoding="utf-8"))
 
+    def test_atomic_save_retries_transient_windows_lock(self):
+        target = cases.RAW_OUTPUT_FILE.parent / cases.CASES_FILE
+        cases.save_json([document(1, True)], target)
+        original = target.read_bytes()
+        replace = Path.replace
+        attempts = []
+
+        def locked_then_available(source, destination):
+            attempts.append(source)
+            # A reader must continue seeing the previous complete JSON.
+            self.assertEqual(target.read_bytes(), original)
+            if len(attempts) < 3:
+                raise PermissionError(13, "Access denied")
+            return replace(source, destination)
+
+        with patch.object(Path, "replace", locked_then_available), patch.object(cases.time, "sleep") as sleep:
+            cases.save_json([document(1, True), document(2, True)], target)
+        self.assertEqual(len(attempts), 3)
+        self.assertEqual(len(set(attempts)), 1)
+        self.assertEqual(sleep.call_count, 2)
+        self.assertEqual(len(self.read(cases.CASES_FILE)), 2)
+        self.assertFalse(list(target.parent.glob("*.tmp")))
+
+    def test_atomic_save_preserves_old_and_pending_json_when_locked(self):
+        target = cases.RAW_OUTPUT_FILE.parent / cases.CASES_FILE
+        cases.save_json([document(1, True)], target)
+        original = target.read_bytes()
+        with patch.object(Path, "replace", side_effect=PermissionError(13, "Access denied")), patch.object(cases.time, "sleep") as sleep:
+            with self.assertRaisesRegex(normalize.IngestionError, "Pending JSON preserved"):
+                cases.save_json([document(2, True)], target)
+        self.assertEqual(target.read_bytes(), original)
+        pending = list(target.parent.glob("*.tmp"))
+        self.assertEqual(len(pending), 1)
+        self.assertEqual(json.loads(pending[0].read_text(encoding="utf-8"))[0]["id"], "oldp:case:2")
+        self.assertEqual(sleep.call_count, len(cases.SAVE_RETRY_DELAYS))
+
     @staticmethod
     def detail(kind, row):
         return {

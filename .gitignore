@@ -18,6 +18,12 @@ coverage/
 # Env
 .env
 .env*.local
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+/web/data/samples/*.json.*.tmp
+/web/data/raw/*.json.*.tmp
 
 # Logs
 /web/data/samples/.ingestion.lock
