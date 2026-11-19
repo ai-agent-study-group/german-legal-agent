@@ -10,6 +10,7 @@ from urllib.request import Request, urlopen
 
 API_ROOT = "https://de.openlegaldata.io/api/"
 SOURCE = "Open Legal Data"
+RATE_LIMIT_MESSAGE = "HTTP 429 (API request quota exhausted)"
 
 
 class IngestionError(ValueError):
@@ -35,7 +36,7 @@ def get_json(path, params=None):
             payload = json.load(response)
     except HTTPError as error:
         if error.code == 429:
-            raise RateLimitError("HTTP 429 (API request quota exhausted)") from error
+            raise RateLimitError(RATE_LIMIT_MESSAGE) from error
         raise IngestionError(f"HTTP {error.code}") from error
     except (OSError, HTTPException) as error:
         raise IngestionError(f"API connection failed ({error})") from error
@@ -94,6 +95,10 @@ def detail(kind, record):
 def record_failure(failures, kind, record, error):
     record_id = record.get("id") if isinstance(record, dict) else record
     failures.append({"record_id": record_id, "record_type": kind, "reason": str(error)})
+
+
+def quota_exhausted(failures):
+    return any(RATE_LIMIT_MESSAGE in failure["reason"] for failure in failures)
 
 
 def section_key(value):

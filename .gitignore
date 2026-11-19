@@ -20,5 +20,6 @@ coverage/
 .env*.local
 
 # Logs
+/web/data/samples/.ingestion.lock
 *.log
 npm-debug.log*
