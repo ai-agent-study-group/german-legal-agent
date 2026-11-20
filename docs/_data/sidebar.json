@@ -54,6 +54,10 @@
       {
         "label": "구조 LLM",
         "route": "wiki/구조-LLM.md"
+      },
+      {
+        "label": "Agent-시작하기",
+        "route": "wiki/Agent-시작하기.md"
       }
     ]
   },
