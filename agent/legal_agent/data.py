@@ -8,15 +8,16 @@ from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
 
-# JSON 파일이 있는 폴더 = 이 파일(data.py)의 부모(legal_agent/)의 부모(agent/)
-DATA_DIR = Path(__file__).resolve().parent.parent
+# JSON 파일이 있는 폴더: 팀 저장소의 web/data/samples/
+# parents[0]=legal_agent/, parents[1]=agent/, parents[2]=저장소 루트(german-legal-agent/)
+DATA_DIR = Path(__file__).resolve().parents[2] / "web" / "data" / "samples"
 
 # 분야(domain) -> 그 분야의 자료 파일 목록. 분야가 늘면 여기에 추가한다.
 DOMAIN_FILES = {
     "housing": [
         "bgb_mietrecht_laws.json",
         "bgb_mietrecht_optional_laws.json",
-        "bgb_mietrecht_cases.json",
+        "bgh_mietrecht_cases.json",
     ],
 }
 
