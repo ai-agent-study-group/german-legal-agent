@@ -2,7 +2,7 @@
 '''
 .env 에 적힌 설정을 읽어서 파이썬 객체로 만들어주는 곳.
 '''
-
+from pathlib import Path # 경로를 다루는 tool.
 from functools import lru_cache # 함수결과를 저장해 두고 재사용
 from typing import Literal # 이 값들 중 하나만 허용
 
@@ -22,6 +22,8 @@ class Settings(BaseSettings):
     api_token: SecretStr | None = None # API 키
     # api_token이라는 칸이 있고, 비밀 문자열이거나 비어 있을 수 있고, 아무것도 없으면 비어 있음(None).
     # 비밀 문자열 또는 없음.
+
+    data_dir: Path = Path("../web/data/samples") # 수집된 JSON 파일 위치 (backend 폴더 기준)
 
     @property
     def docs_enabled(self) -> bool:
