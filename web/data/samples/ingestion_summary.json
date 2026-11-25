@@ -1,7 +1,13 @@
 {
   "primary_laws_collected": 98,
   "optional_laws_collected": 6,
-  "bgh_cases_collected": 50,
+  "bgh_cases_collected": 139,
   "parsing_failed": 0,
-  "source": "Open Legal Data"
+  "source": "Open Legal Data",
+  "existing_cases": 88,
+  "new_cases_added": 51,
+  "duplicate_cases_skipped": 87,
+  "ai_summaries_generated": 51,
+  "summarization_failed": 0,
+  "total_cases": 139
 }

@@ -13,7 +13,8 @@ from normalize import (
 )
 
 
-def collect_laws(failures, previous=()):
+def collect_laws(failures, previous=(), *, scopes=("primary", "optional"),
+                 section_from=None, section_to=None, limit=None):
     laws = {"primary": {}, "optional": {}}
     stage = "law_books"
     try:
@@ -36,7 +37,11 @@ def collect_laws(failures, previous=()):
                 record_id = require_id(row)
                 key = section_key(require_string(row, "section"))
                 scope = law_scope(key)
-                if not scope:
+                if scope not in scopes:
+                    continue
+                if (section_from is not None and key < section_from) or (
+                    section_to is not None and key > section_to
+                ):
                     continue
                 if row.get("book") != book_id:
                     raise IngestionError("unexpected BGB revision")
@@ -45,21 +50,23 @@ def collect_laws(failures, previous=()):
                     continue
                 saved = cached.get(f"oldp:law:{record_id}")
                 if saved and saved.get("section") == section and saved.get("scope") == scope:
-                    laws[scope][section] = saved
-                    continue
-                law = detail("laws", row)
-                title = f"BGB § {section}"
-                if law.get("title"):
-                    title += f" {require_string(law, 'title')}"
-                document = normalized_document(
-                    "law", record_id, title, law.get("content"), f"{API_ROOT}laws/{record_id}/"
-                )
-                document.update(
-                    law_book="BGB", section=section, scope=scope,
-                    official_source_url=f"https://www.gesetze-im-internet.de/bgb/__{section}.html",
-                    revision_date=book.get("revision_date"),
-                )
+                    document = saved
+                else:
+                    law = detail("laws", row)
+                    title = f"BGB § {section}"
+                    if law.get("title"):
+                        title += f" {require_string(law, 'title')}"
+                    document = normalized_document(
+                        "law", record_id, title, law.get("content"), f"{API_ROOT}laws/{record_id}/"
+                    )
+                    document.update(
+                        law_book="BGB", section=section, scope=scope,
+                        official_source_url=f"https://www.gesetze-im-internet.de/bgb/__{section}.html",
+                        revision_date=book.get("revision_date"),
+                    )
                 laws[scope][section] = document
+                if limit == sum(map(len, laws.values())):
+                    break
             except IngestionError as error:
                 record_failure(failures, "law", row, error)
                 if isinstance(error, RateLimitError):
