@@ -7,10 +7,36 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  web:
-    name: web (lint · type · test)
+  backend:
+    name: backend (python test)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: astral-sh/setup-uv@v6
+      - name: Install locked dependencies
+        run: uv sync --locked
+      - name: Test (백엔드 API)
+        run: uv run --locked pytest
+
+  web:
+    name: web (lint · type · test · build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: web
@@ -28,10 +54,13 @@ jobs:
         run: npm run typecheck
       - name: Test (동작 검증)
         run: npm test
+      - name: Build (프로덕션 빌드)
+        run: npm run build
 
   scrape:
     name: scrape (python test)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: web
@@ -43,3 +72,18 @@ jobs:
       - run: pip install -r scripts/scrape/requirements.txt
       - name: Test (수집 스크립트)
         run: npm run test:scrape
+
+  all-checks:
+    name: all-checks
+    if: always()
+    needs: [backend, web, scrape]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all jobs to succeed
+        env:
+          BACKEND_RESULT: ${{ needs.backend.result }}
+          WEB_RESULT: ${{ needs.web.result }}
+          SCRAPE_RESULT: ${{ needs.scrape.result }}
+        run: |
+          test "$BACKEND_RESULT" = success && test "$WEB_RESULT" = success && test "$SCRAPE_RESULT" = success
