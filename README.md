@@ -43,14 +43,15 @@ npm run docs:dev
 
 | 검사 | 무엇을 보나 |
 | --- | --- |
-| Lint | 코드 스타일·흔한 실수 (예: 안 쓰는 변수, 들여쓰기·따옴표 규칙) |
-| Typecheck | 타입 오류 (예: 숫자 자리에 문자열) |
-| Test | 코드가 의도대로 동작하는지 (`web/`의 agent·수집 로직) |
+| 백엔드 | `backend/`의 Python 3.12 의존성을 `uv sync --locked`로 설치하고 API 테스트 실행 |
+| 웹 | `web/`의 lint·타입 검사·테스트와 프로덕션 빌드 |
+| 자료 수집 | `web/scripts/scrape/`의 Python 테스트 |
+| 종합 검사 | `all-checks`는 위 세 작업이 모두 성공해야 통과 |
 
 **비개발자 안내:** 문서만 바꾸면 변경 검토 요청 없이 직접 저장할 수 있습니다. 현재 자동 검사는 main 반영 시에도 실행될 수 있으며,
 결과는 GitHub Actions에서 확인할 수 있습니다. 코드 변경 검토에서는 검사 통과가 병합 조건입니다. 자세한 규칙은 [기여 규칙](CONTRIBUTING.md)을 참고하세요.
 
-코드 변경 시 올리기 전에 로컬에서 같은 검사를 돌리는 방법은 [web/README.md](web/README.md)를 참고하세요.
+로컬 검사 명령은 [백엔드 안내](backend/README.md)와 [웹 안내](web/README.md)의 검증 항목을 참고하세요. 현재 CI는 별도 `agent/`와 `ingestion/`의 테스트를 실행하지 않습니다.
 
 ## 기능 흐름 후보
 
@@ -59,13 +60,13 @@ npm run docs:dev
 
 ## 역할별 폴더
 
-역할별로 논의·작업을 시작할 공간을 만들었습니다. 새 폴더는 README만 있으며 실제 코드는 아직 `web/`에 있습니다.
+역할별로 논의·작업을 시작할 공간을 만들었습니다. 현재 `web/` 데모와 별도의 Python 백엔드·agent 및 자료 수집 코드가 있습니다.
 폴더 이름은 초기 구분이고, 최종 패키지 구조나 별도 서버 채택을 뜻하지 않습니다.
 
 | 경로 | 역할·현재 상태 |
 | --- | --- |
 | `web/` | 프론트엔드 화면과 현재 데모 |
-| [backend/](backend/README.md) | 프로그램 간 연결·저장소 경계 논의. 언어 미정 |
+| [backend/](backend/README.md) | FastAPI 백엔드와 API 테스트 |
 | [ingestion/](ingestion/README.md) | 자료 출처·수집·분류·검토 |
 | [eval/](eval/README.md) | 제품 기획의 사용자·평가 관점 참고 |
 | [infra/](infra/README.md) | 개발 환경·자동 검사·배포·운영 |
