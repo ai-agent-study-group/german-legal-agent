@@ -7,10 +7,18 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   web:
-    name: web (lint · type · test)
+    name: web (lint · type · test · build)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: web
@@ -28,10 +36,13 @@ jobs:
         run: npm run typecheck
       - name: Test (동작 검증)
         run: npm test
+      - name: Build (프로덕션 빌드)
+        run: npm run build
 
   scrape:
     name: scrape (python test)
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     defaults:
       run:
         working-directory: web
@@ -43,3 +54,17 @@ jobs:
       - run: pip install -r scripts/scrape/requirements.txt
       - name: Test (수집 스크립트)
         run: npm run test:scrape
+
+  all-checks:
+    name: all-checks
+    if: always()
+    needs: [web, scrape]
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Require all jobs to succeed
+        env:
+          WEB_RESULT: ${{ needs.web.result }}
+          SCRAPE_RESULT: ${{ needs.scrape.result }}
+        run: |
+          test "$WEB_RESULT" = success && test "$SCRAPE_RESULT" = success
