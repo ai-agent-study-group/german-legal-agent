@@ -1,0 +1,9 @@
+node_modules
+.next
+.git
+.env*
+!.env.example
+*.tsbuildinfo
+data/pending
+data/raw
+__pycache__
