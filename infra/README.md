@@ -23,3 +23,5 @@
 
 문서용 GitHub Pages와 agent 앱의 실행·배포 환경은 별도 항목입니다.
 [프로젝트 논의 항목](../docs/PROJECT_PLAN.md)
+
+[관측·장애 대응 검토](observability.md)
