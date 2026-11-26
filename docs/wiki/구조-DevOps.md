@@ -12,15 +12,26 @@
 
 ## 1. 자동 검사(CI)
 
-변경 검토 요청을 올리면 GitHub가 자동으로 검사합니다. 설정: [`.github/workflows/ci.yml`](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/.github/workflows/ci.yml)
+변경 검토 요청(PR)을 올리거나 `main`에 변경이 반영되면 GitHub Actions가 자동으로 검사합니다.
+설정 파일: [`.github/workflows/ci.yml`](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/.github/workflows/ci.yml)
 
-| 검사 | 무엇을 보나 |
+| 검사 | 확인 내용 |
 | --- | --- |
-| Lint | 코드 스타일·흔한 실수 (안 쓰는 변수, 들여쓰기·따옴표 규칙) |
-| Typecheck | 타입 오류 (숫자 자리에 문자열 등) |
-| Test | 코드가 의도대로 동작하는지 (`web/`의 agent·수집 로직) |
+| 백엔드 | Python 3.12 환경에서 `uv sync --locked`로 의존성을 설치하고 `uv run --locked pytest`로 API 테스트 실행 |
+| 웹 | `web/`의 lint, 타입 검사, 테스트 및 프로덕션 빌드 |
+| 자료 수집 | `web/scripts/scrape/`의 Python 테스트 |
+| 종합 검사 | `all-checks`: 백엔드·웹·자료 수집 검사가 모두 성공해야 통과 |
 
-문서만 바꾸면 변경 검토 요청 없이 직접 저장할 수 있습니다. 코드 변경에서는 검사 통과가 병합 조건입니다.
+현재 CI는 별도 `agent/`와 `ingestion/`의 테스트는 실행하지 않습니다.
+
+코드 변경의 병합 조건은 CI 통과와 리뷰입니다. 문서만 변경한 경우에는
+[기여 규칙](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/CONTRIBUTING.md)을 따릅니다.
+
+로컬 검사 방법은 [백엔드 README](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/backend/README.md)와
+[웹 README](https://github.com/ai-agent-study-group/german-legal-agent/blob/main/web/README.md)를 참고하세요.
+
+> 저장소 관리자는 `main`의 브랜치 보호 설정에 `all-checks`가 필수 검사로 지정되어 있는지,
+> 그리고 문서 직접 저장 규칙과 충돌하지 않는지 별도로 확인해야 합니다.
 
 ## 2. 문서 사이트
 
